@@ -51,8 +51,13 @@ namespace ggpkg
     Utils::Result<void> DetectPackageManager()
     {
         std::string errorStr;
+
         auto options = std::to_array<PackageManagerInfo>({
+#if defined(_WIN32)
+            PackageManagerInfo{.cmd = "winget", .version = "-v", .install = "-e --id"},
+#elif defined(__linux__)
             PackageManagerInfo{.cmd = "pacman", .version = "-V", .install = "-S"},
+#endif
         });
 
         for (const auto& option : options)
