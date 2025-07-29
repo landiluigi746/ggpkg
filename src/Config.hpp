@@ -19,9 +19,12 @@ namespace ggpkg::Config
 #if defined(_WIN32)
     inline const std::filesystem::path PACKAGE_MANAGER_CONFIG_PATH =
         HOME_PATH / "ggpkg" / "package-manager.json";
+    inline const std::filesystem::path PACKAGES_CONFIG_PATH = HOME_PATH / "ggpkg" / "packages.json";
 #elif defined(__linux__)
     inline const std::filesystem::path PACKAGE_MANAGER_CONFIG_PATH =
         HOME_PATH / ".config" / "ggpkg" / "package-manager.json";
+    inline const std::filesystem::path PACKAGES_CONFIG_PATH =
+        HOME_PATH / ".config" / "ggpkg" / "packages.json";
 #else
 #error "Unsupported platform"
 #endif

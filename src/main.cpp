@@ -1,8 +1,10 @@
+#include "Package.hpp"
+#include "PackageManager.hpp"
+
 #include <argparse/argparse.hpp>
 #include <cstdlib>
 #include <exception>
 #include <print>
-#include "PackageManager.hpp"
 
 int main(const int argc, const char* argv[])
 {
@@ -16,8 +18,12 @@ int main(const int argc, const char* argv[])
     argparse::ArgumentParser test("test");
     test.add_description("Test package manager provided by the file in config path, if present");
 
+    argparse::ArgumentParser list("list");
+    list.add_description("List packages supported by ggpkg for your package manager");
+
     program.add_subparser(configure);
     program.add_subparser(test);
+    program.add_subparser(list);
 
     try
     {
@@ -26,6 +32,7 @@ int main(const int argc, const char* argv[])
     catch (const std::exception& err)
     {
         std::println("{}", program.help().str());
+        return EXIT_FAILURE;
     }
 
     if (program.is_subcommand_used("configure"))
@@ -49,6 +56,32 @@ int main(const int argc, const char* argv[])
         }
 
         std::println("Test completed successfully!");
+        return EXIT_SUCCESS;
+    }
+
+    if (program.is_subcommand_used("list"))
+    {
+        auto packageManager = ggpkg::GetPackageManager();
+        auto packages = ggpkg::GetPackages();
+
+        if (!packageManager)
+        {
+            std::println("ERROR: {}", packageManager.error());
+            return EXIT_FAILURE;
+        }
+
+        if (!packages)
+        {
+            std::println("ERROR: {}", packages.error());
+            return EXIT_FAILURE;
+        }
+
+        for (const auto& [name, providers] : packages.value())
+        {
+            if (providers.contains(packageManager.value().cmd))
+                std::println("{}", name);
+        }
+
         return EXIT_SUCCESS;
     }
 

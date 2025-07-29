@@ -1,0 +1,42 @@
+[
+  {
+    "name": "cmake",
+    "providers": {
+      "pacman": "cmake",
+      "winget": "Kitware.CMake"
+    }
+  },
+  {
+    "name": "ninja",
+    "providers": {
+      "pacman": "ninja",
+      "winget": "Ninja-build.Ninja"
+    }
+  },
+  {
+    "name": "git",
+    "providers": {
+      "pacman": "git",
+      "winget": "Git.Git"
+    }
+  },
+  {
+    "name": "vscode",
+    "providers": {
+      "pacman": "code",
+      "winget": "Microsoft.VisualStudioCode"
+    }
+  },
+  {
+    "name": "vs2022",
+    "providers": { "winget": "Microsoft.VisualStudio.2022.Community" }
+  },
+  {
+    "name": "zed",
+    "providers": { "pacman": "zed" }
+  },
+  {
+    "name": "gdb",
+    "providers": { "pacman": "gdb" }
+  }
+]
