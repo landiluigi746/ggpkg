@@ -1,28 +1,57 @@
-#include <ftxui/dom/elements.hpp>
-#include <ftxui/screen/screen.hpp>
+#include <argparse/argparse.hpp>
+#include <cstdlib>
+#include <exception>
 #include <print>
+#include "PackageManager.hpp"
 
-using ftxui::vbox, ftxui::hbox, ftxui::text, ftxui::border, ftxui::flex, ftxui::gauge, ftxui::color,
-    ftxui::Color;
-
-int main()
+int main(const int argc, const char* argv[])
 {
-    auto document = vbox({
-        hbox({
-            text("one") | border,
-            text("two") | border | flex,
-            text("three") | border | flex,
-        }),
+    argparse::ArgumentParser program("ggpkg", "0.1", argparse::default_arguments::all);
+    program.add_description("The package manager wrapper you never asked for 🔥");
 
-        gauge(0.25) | color(Color::Red),
-        gauge(0.50) | color(Color::White),
-        gauge(0.75) | color(Color::Blue),
-    });
+    argparse::ArgumentParser configure("configure");
+    configure.add_description(
+        "Detects compatible package manager automatically and saves it in the config path");
 
-    auto screen = ftxui::Screen::Create(ftxui::Dimension::Fit(document));
-    ftxui::Render(screen, document);
+    argparse::ArgumentParser test("test");
+    test.add_description("Test package manager provided by the file in config path, if present");
 
-    std::println("{}\n", screen.ToString());
+    program.add_subparser(configure);
+    program.add_subparser(test);
 
-    return 0;
+    try
+    {
+        program.parse_args(argc, argv);
+    }
+    catch (const std::exception& err)
+    {
+        std::println("{}", program.help().str());
+    }
+
+    if (program.is_subcommand_used("configure"))
+    {
+        if (auto ec = ggpkg::DetectPackageManager(); !ec)
+        {
+            std::println("ERROR: {}", ec.error());
+            return EXIT_FAILURE;
+        }
+
+        std::println("Configuration completed successfully!");
+        return EXIT_SUCCESS;
+    }
+
+    if (program.is_subcommand_used("test"))
+    {
+        if (auto ec = ggpkg::GetPackageManager(); !ec)
+        {
+            std::println("ERROR: {}", ec.error());
+            return EXIT_FAILURE;
+        }
+
+        std::println("Test completed successfully!");
+        return EXIT_SUCCESS;
+    }
+
+    std::println("{}", program.help().str());
+    return EXIT_SUCCESS;
 }
