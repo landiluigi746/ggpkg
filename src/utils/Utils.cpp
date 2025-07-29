@@ -5,13 +5,13 @@
 
 namespace ggpkg::Utils
 {
-    std::string GetEnv(std::string_view varName, std::string_view defaultValue)
+    std::string GetEnv(const std::string_view& varName, const std::string_view& defaultValue)
     {
         const char* val = std::getenv(varName.data());
         return (val && val[0] != '\0') ? std::string(val) : std::string(defaultValue);
     }
 
-    int SilentSystem(std::string_view command)
+    int SilentSystem(const std::string_view& command)
     {
 #if defined(_WIN32)
         return std::system(std::format("{} > NUL 2>&1", command).c_str());
@@ -20,7 +20,7 @@ namespace ggpkg::Utils
 #endif
     }
 
-    int System(std::string_view command)
+    int System(const std::string_view& command)
     {
         std::cout << std::flush;
         return std::system(command.data());

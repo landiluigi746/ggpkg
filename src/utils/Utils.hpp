@@ -10,7 +10,7 @@ namespace ggpkg::Utils
     using Result = std::expected<T, std::string>;
     using Error = std::unexpected<std::string>;
 
-    std::string GetEnv(std::string_view varName, std::string_view defaultValue = "");
-    int SilentSystem(std::string_view command);
-    int System(std::string_view command);
+    std::string GetEnv(const std::string_view& varName, const std::string_view& defaultValue = "");
+    int SilentSystem(const std::string_view& command);
+    int System(const std::string_view& command);
 } // namespace ggpkg::Utils
