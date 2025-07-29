@@ -11,9 +11,6 @@
 
 namespace ggpkg
 {
-    static std::atomic_bool s_Initialized = false;
-    static PackageManagerInfo s_PackageManagerInfo;
-
     static bool TestPackageManager(const PackageManagerInfo& packageManager)
     {
         std::print("Testing {} ... ", packageManager.cmd);
@@ -73,9 +70,6 @@ namespace ggpkg
 
     Utils::Result<PackageManagerInfo> GetPackageManager()
     {
-        if (s_Initialized)
-            return s_PackageManagerInfo;
-
         PackageManagerInfo packageManagerInfo;
         const std::string pathStr = Config::PACKAGE_MANAGER_CONFIG_PATH.string();
 
@@ -92,8 +86,6 @@ namespace ggpkg
             return Utils::Error(std::format(
                 "The package manager in your configuration file ({}) did not pass the test", pathStr));
 
-        s_PackageManagerInfo = packageManagerInfo;
-        s_Initialized = true;
-        return s_PackageManagerInfo;
+        return packageManagerInfo;
     }
 } // namespace ggpkg
