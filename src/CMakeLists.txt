@@ -11,6 +11,7 @@ target_include_directories(
 target_link_libraries(
     ${PROJECT_NAME}
     PUBLIC
+    CLI11::CLI11
     ftxui::dom
     ftxui::screen
     ftxui::component

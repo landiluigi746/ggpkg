@@ -19,5 +19,6 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/lib)
 find_package(OpenSSL REQUIRED)
 find_package(ftxui CONFIG REQUIRED)
 find_package(glaze CONFIG REQUIRED)
+find_package(CLI11 CONFIG REQUIRED)
 
 add_subdirectory(src)
