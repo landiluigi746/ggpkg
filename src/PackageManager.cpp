@@ -51,9 +51,10 @@ namespace ggpkg
 
         auto options = std::to_array<PackageManagerInfo>({
 #if defined(_WIN32)
-            PackageManagerInfo{.cmd = "winget", .version = "-v", .install = "-e --id"},
+            PackageManagerInfo{.cmd = "winget", .version = "-v", .install = "install -e --id"},
 #elif defined(__linux__)
             PackageManagerInfo{.cmd = "pacman", .version = "-V", .install = "-S"},
+            PackageManagerInfo{.cmd = "apt", .version = "-v", .install = "install"}
 #endif
         });
 

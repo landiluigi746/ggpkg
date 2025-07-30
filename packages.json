@@ -3,6 +3,7 @@
     "name": "cmake",
     "providers": {
       "pacman": "cmake",
+      "apt": "cmake",
       "winget": "Kitware.CMake"
     }
   },
@@ -10,6 +11,7 @@
     "name": "ninja",
     "providers": {
       "pacman": "ninja",
+      "apt": "ninja-build",
       "winget": "Ninja-build.Ninja"
     }
   },
@@ -17,6 +19,7 @@
     "name": "git",
     "providers": {
       "pacman": "git",
+      "apt": "git",
       "winget": "Git.Git"
     }
   },
@@ -37,6 +40,6 @@
   },
   {
     "name": "gdb",
-    "providers": { "pacman": "gdb" }
+    "providers": { "pacman": "gdb", "apt": "gdb" }
   }
 ]
