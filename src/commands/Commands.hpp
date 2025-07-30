@@ -1,8 +1,5 @@
 #pragma once
 
-#include <string>
-#include <functional>
-#include <array>
 #include <CLI/App.hpp>
 
 namespace ggpkg
@@ -13,6 +10,6 @@ namespace ggpkg
     {
         [[noreturn]] void Configure();
         [[noreturn]] void Test();
-        [[noreturn]] void List();
+        [[noreturn]] void List(bool interactive);
     } // namespace Commands
 } // namespace ggpkg

@@ -15,10 +15,15 @@ namespace ggpkg
             "Test package manager provided by the file in config path, if present"
         )->callback(&Commands::Test);
 
-        app.add_subcommand(
+        auto listInteractive = std::make_shared<bool>(false);
+        auto* listCmd = app.add_subcommand(
             "list",
             "List packages supported by ggpkg for your package manager"
-        )->callback(&Commands::List);
+        );
+        listCmd->add_flag("-i", *listInteractive, "Enables interactive mode");
+        listCmd->callback([listInteractive]{
+            Commands::List(*listInteractive);
+        });
         // clang-format on
     }
 } // namespace ggpkg
