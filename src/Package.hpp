@@ -17,4 +17,4 @@ namespace ggpkg
     using Packages = std::vector<PackageInstallInfo>;
 
     Utils::Result<Packages> GetPackages();
-}
+} // namespace ggpkg

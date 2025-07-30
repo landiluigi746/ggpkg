@@ -2,7 +2,6 @@
 #include "Config.hpp"
 #include "utils/Utils.hpp"
 
-#include <atomic>
 #include <filesystem>
 #include <print>
 #include <system_error>

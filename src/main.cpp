@@ -1,11 +1,6 @@
-#include "Package.hpp"
-#include "PackageManager.hpp"
-
 #include "commands/Commands.hpp"
 
 #include <CLI/CLI.hpp>
-#include <cstdlib>
-#include <exception>
 #include <print>
 
 int main(int argc, char* argv[])
