@@ -24,6 +24,16 @@ namespace ggpkg
         listCmd->callback([listInteractive]{
             Commands::List(*listInteractive);
         });
+
+        auto installPackages = std::make_shared<std::vector<std::string>>();
+        auto* installCmd = app.add_subcommand(
+            "install",
+            "Install specified packages if they are available with your package manager"
+        );
+        installCmd->add_option("packages", *installPackages, "Packages to install");
+        installCmd->callback([installPackages]{
+            Commands::Install(*installPackages);
+        });
         // clang-format on
     }
 } // namespace ggpkg

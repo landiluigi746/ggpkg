@@ -1,6 +1,8 @@
 #pragma once
 
 #include <CLI/App.hpp>
+#include <vector>
+#include <string>
 
 namespace ggpkg
 {
@@ -11,5 +13,6 @@ namespace ggpkg
         [[noreturn]] void Configure();
         [[noreturn]] void Test();
         [[noreturn]] void List(bool interactive);
+        [[noreturn]] void Install(std::vector<std::string>& packageNames);
     } // namespace Commands
 } // namespace ggpkg
