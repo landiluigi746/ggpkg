@@ -90,13 +90,12 @@ namespace ggpkg::Commands
                     ftxui::text(std::format("Name on {}", packageManager.cmd)),
                 }),
                 ftxui::separator(),
-                (!packageNames.empty() 
+                (!packageNames.empty()
                 ? ftxui::vbox({
                     layoutRenderer->Render(),
                 })
                 : ftxui::emptyElement()
                 ),
-                
             }) | ftxui::borderRounded | ftxui::center;
         });
         // clang-format on
@@ -141,10 +140,10 @@ namespace ggpkg::Commands
                     ftxui::separator(),
                     ftxui::vbox(packageProviderNames),
                 }),
-                ftxui::separator(),
-                ftxui::text(std::format("Packages found: {}", packageNames.size())),
-            }) | ftxui::borderRounded,
-        });
+            }),
+            ftxui::separator(),
+            ftxui::text(std::format("Packages found: {}", packageNames.size())),
+        }) | ftxui::borderRounded;
         // clang-format on
 
         auto screen = ftxui::Screen::Create(ftxui::Dimension::Fit(document));
