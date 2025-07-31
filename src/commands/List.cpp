@@ -146,7 +146,7 @@ namespace ggpkg::Commands
         }) | ftxui::borderRounded;
         // clang-format on
 
-        auto screen = ftxui::Screen::Create(ftxui::Dimension::Fit(document));
+        auto screen = ftxui::Screen::Create(ftxui::Dimension::Fit(document, true));
         ftxui::Render(screen, document);
 
         std::println("{}", screen.ToString());
