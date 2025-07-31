@@ -40,6 +40,58 @@
   },
   {
     "name": "gdb",
-    "providers": { "pacman": "gdb", "apt": "gdb" }
+    "providers": {
+      "pacman": "gdb",
+      "apt": "gdb"
+    }
+  },
+  {
+    "name": "firefox",
+    "providers": {
+      "pacman": "firefox",
+      "apt": "firefox",
+      "winget": "Mozilla.Firefox"
+    }
+  },
+  {
+    "name": "chrome",
+    "providers": {
+      "winget": "Google.Chrome"
+    }
+  },
+  {
+    "name": "discord",
+    "providers": {
+      "pacman": "discord",
+      "apt": "discord",
+      "winget": "Discord.Discord"
+    }
+  },
+  {
+    "name": "steam",
+    "providers": {
+      "apt": "steam",
+      "winget": "Valve.Steam"
+    }
+  },
+  {
+    "name": "notepad++",
+    "providers": {
+      "winget": "Notepad++.Notepad++"
+    }
+  },
+  {
+    "name": "epicgames",
+    "providers": {
+      "winget": "EpicGames.EpicGamesLauncher"
+    }
+  },
+  {
+    "name": "gimp",
+    "providers": {
+      "pacman": "gimp",
+      "apt": "gimp",
+      "winget": "GIMP.GIMP"
+    }
   }
 ]

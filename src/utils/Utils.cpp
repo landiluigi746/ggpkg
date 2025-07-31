@@ -2,6 +2,7 @@
 
 #include <cstdlib>
 #include <iostream>
+#include <ftxui/dom/elements.hpp>
 
 namespace ggpkg::Utils
 {
@@ -24,5 +25,19 @@ namespace ggpkg::Utils
     {
         std::cout << std::flush;
         return std::system(command.data());
+    }
+
+    ftxui::Element Banner()
+    {
+        // clang-format off
+        return ftxui::text("ggpkg") | ftxui::hcenter | ftxui::bold | ftxui::color(ftxui::Color::DarkOrange);
+        // clang-format on
+    }
+
+    void DisableCursor(ftxui::ScreenInteractive& screen)
+    {
+        screen.SetCursor(ftxui::Screen::Cursor{
+            .shape = ftxui::Screen::Cursor::Shape::Hidden,
+        });
     }
 } // namespace ggpkg::Utils

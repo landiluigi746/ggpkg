@@ -13,71 +13,119 @@ namespace ggpkg::Commands
 {
     static void InteractiveList(const Packages& packages, const PackageManagerInfo& packageManager)
     {
-        auto packageNames = ftxui::Container::Vertical({});
-        auto packageProviderNames = ftxui::Container::Vertical({});
+        auto availablePackages = GetAvailablePackages(packages, packageManager);
 
-        const auto style = ftxui::ButtonOption::Ascii();
+        std::string searchQuery;
+        std::vector<std::string> packageNames;
+        std::vector<std::string> packageProviderNames;
+        int packageSelected = 0;
 
-        for (const auto& [name, providers] : packages)
-        {
-            if (!providers.contains(packageManager.cmd))
-                continue;
+        auto searchPackages = [&availablePackages, &packageNames, &packageProviderNames,
+                               &packageSelected, &searchQuery] {
+            packageNames.clear();
+            packageProviderNames.clear();
+            packageSelected = 0;
 
-            packageNames->Add(ftxui::Button(name, [] {}, style));
-            packageProviderNames->Add(ftxui::Button(providers.at(packageManager.cmd), [] {}, style));
-        }
+            for (const auto& [name, providerName] : availablePackages)
+            {
+                if (searchQuery.empty() || name.contains(searchQuery))
+                {
+                    packageNames.emplace_back(name);
+                    packageProviderNames.emplace_back(providerName);
+                }
+            }
+        };
+
+        searchPackages();
+
+        auto packageNamesLayout = ftxui::Menu(&packageNames, &packageSelected);
+        auto packageProviderNamesLayout = ftxui::Menu(&packageProviderNames, &packageSelected);
+
+        auto searchInput = ftxui::Input(ftxui::InputOption{
+            .content = &searchQuery,
+            .placeholder = "Search packages by name",
+            .multiline = false,
+            .on_enter = searchPackages,
+        });
 
         auto screen = ftxui::ScreenInteractive::Fullscreen();
+        Utils::DisableCursor(screen);
 
         auto layout = ftxui::Container::Vertical({
-            packageNames,
-            packageProviderNames,
+            searchInput,
+            packageNamesLayout,
+            packageProviderNamesLayout,
         });
 
         // clang-format off
-        auto layoutRenderer = ftxui::Renderer(layout, [&]{
+        auto layoutRenderer = ftxui::Renderer(layout, [&] {
             return ftxui::hbox({
-                packageNames->Render(),
+                packageNamesLayout->Render(),
                 ftxui::separator(),
-                packageProviderNames->Render()
-            }) | ftxui::vscroll_indicator | ftxui::frame;
+                packageProviderNamesLayout->Render(),
+            }) | ftxui::vscroll_indicator | ftxui::frame | ftxui::size(ftxui::HEIGHT, ftxui::LESS_THAN, screen.dimy() / 2);
         });
 
         auto renderer = ftxui::Renderer(layoutRenderer, [&] {
+            auto renderedNames = packageNamesLayout->Render();
+            renderedNames->ComputeRequirement();
+
+            std::string namesLabel = "Packages";
+            int minLabelWidth = std::max((int)namesLabel.length(), renderedNames->requirement().min_x);
+
             return ftxui::vbox({
+                Utils::Banner(),
+                ftxui::separator(),
+                searchInput->Render(),
+                ftxui::separator(),
                 ftxui::hbox({
-                    ftxui::text("Packages"),
+                    ftxui::text("q - Quit | Enter - Search"),
+                    ftxui::separator(),
+                    ftxui::text(std::format("Packages found: {}", packageNames.size())),
+                }),
+                ftxui::separator(),
+                ftxui::hbox({
+                    ftxui::text(namesLabel) | ftxui::size(ftxui::WIDTH, ftxui::EQUAL, minLabelWidth),
                     ftxui::separator(),
                     ftxui::text(std::format("Name on {}", packageManager.cmd)),
                 }),
                 ftxui::separator(),
-                layoutRenderer->Render()
+                (!packageNames.empty() 
+                ? ftxui::vbox({
+                    layoutRenderer->Render(),
+                })
+                : ftxui::emptyElement()
+                ),
+                
             }) | ftxui::borderRounded | ftxui::center;
         });
         // clang-format on
+
+        renderer |= ftxui::CatchEvent([&screen](const ftxui::Event& event) {
+            if (event == ftxui::Event::Character('q'))
+            {
+                screen.Exit();
+                return true;
+            }
+
+            return false;
+        });
 
         screen.Loop(renderer);
     }
 
     static void DefaultList(const Packages& packages, const PackageManagerInfo& packageManager)
     {
+        auto availablePackages = GetAvailablePackages(packages, packageManager);
+
         ftxui::Elements packageNames;
         ftxui::Elements packageProviderNames;
 
-        packageNames.reserve(packages.size());
-        packageProviderNames.reserve(packages.size());
-
-        for (const auto& [name, providers] : packages)
+        for (const auto& [name, providerName] : availablePackages)
         {
-            if (!providers.contains(packageManager.cmd))
-                continue;
-
             packageNames.emplace_back(ftxui::text(name));
-            packageProviderNames.emplace_back(ftxui::text(providers.at(packageManager.cmd)));
+            packageProviderNames.emplace_back(ftxui::text(providerName));
         }
-
-        packageNames.shrink_to_fit();
-        packageProviderNames.shrink_to_fit();
 
         // clang-format off
         auto document = ftxui::vbox({
@@ -92,7 +140,9 @@ namespace ggpkg::Commands
                     ftxui::text(std::format("Name on {}", packageManager.cmd)),
                     ftxui::separator(),
                     ftxui::vbox(packageProviderNames),
-                })
+                }),
+                ftxui::separator(),
+                ftxui::text(std::format("Packages found: {}", packageNames.size())),
             }) | ftxui::borderRounded,
         });
         // clang-format on
