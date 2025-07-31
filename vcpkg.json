@@ -4,6 +4,7 @@
     "cli11",
     "ftxui",
     "glaze",
-    "openssl"
+    "openssl",
+    "tiny-process-library"
   ]
 }
