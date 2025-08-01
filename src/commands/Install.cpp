@@ -1,16 +1,26 @@
 #include "commands/Commands.hpp"
 #include "Package.hpp"
 #include "PackageManager.hpp"
+#include "utils/Utils.hpp"
 
 #include <cstdlib>
-#include <iterator>
 #include <print>
 #include <ranges>
 #include <unordered_set>
 
 namespace ggpkg::Commands
 {
-    void Install(std::vector<std::string>& packageNames)
+    static int DefaultInstall(const PackageManagerInfo& packageManager, auto& packageNames)
+    {
+        std::string command = std::format("{} {} ", packageManager.cmd, packageManager.install);
+
+        for (const std::string& packageName : packageNames)
+            command += packageName + ' ';
+
+        return Utils::System(command);
+    }
+
+    void Install(const std::vector<std::string>& packageNames)
     {
         if (packageNames.empty())
         {
@@ -51,7 +61,15 @@ namespace ggpkg::Commands
                 return toInstall;
             });
 
-        std::println("The following packages will be installed: {}", packagesToInstall);
+        if (std::ranges::distance(packagesToInstall) == 0)
+        {
+            std::println("ERROR: None of the specified package can be installed");
+            std::exit(EXIT_FAILURE);
+        }
+
+        if (DefaultInstall(packageManager.value(), packagesToInstall))
+            std::exit(EXIT_FAILURE);
+
         std::exit(EXIT_SUCCESS);
     }
 } // namespace ggpkg::Commands

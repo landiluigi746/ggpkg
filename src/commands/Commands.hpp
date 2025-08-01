@@ -13,6 +13,6 @@ namespace ggpkg
         [[noreturn]] void Configure();
         [[noreturn]] void Test();
         [[noreturn]] void List(bool interactive);
-        [[noreturn]] void Install(std::vector<std::string>& packageNames);
+        [[noreturn]] void Install(const std::vector<std::string>& packageNames);
     } // namespace Commands
 } // namespace ggpkg
