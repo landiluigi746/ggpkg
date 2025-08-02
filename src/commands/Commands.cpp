@@ -34,6 +34,11 @@ namespace ggpkg
         installCmd->callback([installPackages]{
             Commands::Install(*installPackages);
         });
+
+        app.add_subcommand(
+            "update",
+            "Sync your package manager with remote repositories"
+        )->callback(&Commands::Update);
         // clang-format on
     }
 } // namespace ggpkg
