@@ -55,6 +55,7 @@ namespace ggpkg
                 .version = "-v",
                 .install = "install -e --id",
                 .update = "source update",
+                .installBatch = false,
             },
 #elif defined(__linux__)
             PackageManagerInfo{
@@ -62,12 +63,14 @@ namespace ggpkg
                 .version = "-V",
                 .install = "-S",
                 .update = "-Sy",
+                .installBatch = true,
             },
             PackageManagerInfo{
                 .cmd = "apt",
                 .version = "-v",
                 .install = "install",
                 .update = "update",
+                .installBatch = true,
             }
 #endif
         });

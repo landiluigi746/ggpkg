@@ -9,7 +9,8 @@
 
 namespace ggpkg::Commands
 {
-    static int DefaultInstall(const PackageManagerInfo& packageManager, auto& packageNames)
+    static int DefaultInstall(const PackageManagerInfo& packageManager,
+                              const std::vector<std::string>& packageNames)
     {
         std::string packagesStr;
 
@@ -19,8 +20,23 @@ namespace ggpkg::Commands
         Utils::PrintPretty(Utils::MessageSeverity::OK,
                            std::format("The following packages will be installed: {}", packagesStr));
 
-        return Utils::System(
-            std::format("{} {} {}", packageManager.cmd, packageManager.install, packagesStr));
+        if (packageManager.installBatch)
+        {
+            return Utils::System(
+                std::format("{} {} {}", packageManager.cmd, packageManager.install, packagesStr));
+        }
+        else
+        {
+            int ret = 0;
+
+            for (const std::string& packageName : packageNames)
+            {
+                ret += Utils::System(
+                    std::format("{} {} {}", packageManager.cmd, packageManager.install, packageName));
+            }
+
+            return ret;
+        }
     }
 
     void Install(std::vector<std::string>& packageNames)
