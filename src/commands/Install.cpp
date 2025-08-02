@@ -3,6 +3,7 @@
 #include "PackageManager.hpp"
 #include "utils/Utils.hpp"
 
+#include <algorithm>
 #include <cstdlib>
 #include <unordered_set>
 
@@ -29,6 +30,10 @@ namespace ggpkg::Commands
             Utils::PrintPretty(Utils::MessageSeverity::ERROR, "No packages specified");
             std::exit(EXIT_FAILURE);
         }
+
+        std::ranges::sort(packageNames);
+        auto duplicates = std::ranges::unique(packageNames);
+        packageNames.erase(std::ranges::begin(duplicates), std::ranges::end(duplicates));
 
         auto packageManager = ggpkg::GetPackageManager();
         auto packages = ggpkg::GetPackages();
