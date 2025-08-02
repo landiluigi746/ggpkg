@@ -12,8 +12,10 @@ namespace ggpkg
         std::string cmd;
         std::string version;
         std::string install;
+        std::string uninstall;
         std::string update;
         bool installBatch;
+        bool uninstallBatch;
     };
 
     Utils::Result<void> DetectPackageManager();

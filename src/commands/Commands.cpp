@@ -1,4 +1,5 @@
 #include "commands/Commands.hpp"
+#include <memory>
 
 namespace ggpkg
 {
@@ -39,6 +40,16 @@ namespace ggpkg
             "update",
             "Sync your package manager with remote repositories"
         )->callback(&Commands::Update);
+
+        auto uninstallPackages = std::make_shared<std::vector<std::string>>();
+        auto* uninstallCmd = app.add_subcommand(
+            "uninstall",
+            "Uninstall specified packages if they are available with your package manager"
+        );
+        uninstallCmd->add_option("packages", *uninstallPackages, "Packages to uninstall");
+        uninstallCmd->callback([uninstallPackages]{
+            Commands::Uninstall(*uninstallPackages);
+        });
         // clang-format on
     }
 } // namespace ggpkg

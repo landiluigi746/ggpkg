@@ -15,5 +15,6 @@ namespace ggpkg
         [[noreturn]] void List(bool interactive);
         [[noreturn]] void Install(std::vector<std::string>& packageNames);
         [[noreturn]] void Update();
+        [[noreturn]] void Uninstall(std::vector<std::string>& packageNames);
     } // namespace Commands
 } // namespace ggpkg

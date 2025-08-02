@@ -54,23 +54,29 @@ namespace ggpkg
                 .cmd = "winget",
                 .version = "-v",
                 .install = "install -e --id",
+                .uninstall = "uninstall",
                 .update = "source update",
                 .installBatch = false,
+                .uninstallBatch = false,
             },
 #elif defined(__linux__)
             PackageManagerInfo{
                 .cmd = "pacman",
                 .version = "-V",
                 .install = "-S",
+                .uninstall = "-R",
                 .update = "-Sy",
                 .installBatch = true,
+                .uninstallBatch = true,
             },
             PackageManagerInfo{
                 .cmd = "apt",
                 .version = "-v",
                 .install = "install",
+                .uninstall = "remove",
                 .update = "update",
                 .installBatch = true,
+                .uninstallBatch = true,
             }
 #endif
         });

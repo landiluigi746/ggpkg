@@ -9,8 +9,8 @@
 
 namespace ggpkg::Commands
 {
-    static int DefaultInstall(const PackageManagerInfo& packageManager,
-                              const std::vector<std::string>& packageNames)
+    static int DefaultUninstall(const PackageManagerInfo& packageManager,
+                                const std::vector<std::string>& packageNames)
     {
         std::string packagesStr;
 
@@ -18,12 +18,12 @@ namespace ggpkg::Commands
             packagesStr += packageName + ' ';
 
         Utils::PrintPretty(Utils::MessageSeverity::OK,
-                           std::format("The following packages will be installed: {}", packagesStr));
+                           std::format("The following packages will be uninstalled: {}", packagesStr));
 
-        if (packageManager.installBatch)
+        if (packageManager.uninstallBatch)
         {
             return Utils::System(
-                std::format("{} {} {}", packageManager.cmd, packageManager.install, packagesStr));
+                std::format("{} {} {}", packageManager.cmd, packageManager.uninstall, packagesStr));
         }
         else
         {
@@ -32,14 +32,14 @@ namespace ggpkg::Commands
             for (const std::string& packageName : packageNames)
             {
                 ret += Utils::System(
-                    std::format("{} {} {}", packageManager.cmd, packageManager.install, packageName));
+                    std::format("{} {} {}", packageManager.cmd, packageManager.uninstall, packageName));
             }
 
             return ret;
         }
     }
 
-    void Install(std::vector<std::string>& packageNames)
+    void Uninstall(std::vector<std::string>& packageNames)
     {
         if (packageNames.empty())
         {
@@ -82,7 +82,7 @@ namespace ggpkg::Commands
             {
                 Utils::PrintPretty(Utils::MessageSeverity::WARNING,
                                    std::format("Package {} is not available for your package manager. "
-                                               "It will not be installed",
+                                               "It will not be uninstalled",
                                                packageName));
             }
 
@@ -92,11 +92,11 @@ namespace ggpkg::Commands
         if (packageNames.empty())
         {
             Utils::PrintPretty(Utils::MessageSeverity::ERROR,
-                               "None of the specified packages can be installed");
+                               "None of the specified packages can be uninstalled");
             std::exit(EXIT_FAILURE);
         }
 
-        if (DefaultInstall(packageManager.value(), packageNames))
+        if (DefaultUninstall(packageManager.value(), packageNames))
             std::exit(EXIT_FAILURE);
 
         std::exit(EXIT_SUCCESS);
