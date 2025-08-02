@@ -4,7 +4,6 @@
 #include "utils/Utils.hpp"
 
 #include <cstdlib>
-#include <ranges>
 #include <unordered_set>
 
 namespace ggpkg::Commands
@@ -23,7 +22,7 @@ namespace ggpkg::Commands
             std::format("{} {} {}", packageManager.cmd, packageManager.install, packagesStr));
     }
 
-    void Install(const std::vector<std::string>& packageNames)
+    void Install(std::vector<std::string>& packageNames)
     {
         if (packageNames.empty())
         {
@@ -46,36 +45,37 @@ namespace ggpkg::Commands
             std::exit(EXIT_FAILURE);
         }
 
-        auto availablePackages = ggpkg::GetAvailablePackages(packages.value(), packageManager.value());
+        AvailablePackages availablePackages =
+            GetAvailablePackages(packages.value(), packageManager.value());
 
-        std::unordered_set<std::string> availablePackageNames;
-        availablePackageNames.reserve(std::ranges::distance(availablePackages));
+        std::unordered_set<std::string> supportedPackages;
+        supportedPackages.reserve(std::size(availablePackages));
 
         for (const auto& [name, _] : availablePackages)
-            availablePackageNames.emplace(name);
+            supportedPackages.emplace(name);
 
-        auto packagesToInstall =
-            packageNames | std::views::filter([&availablePackageNames](const std::string& name) {
-                bool toInstall = availablePackageNames.contains(name);
+        std::erase_if(packageNames, [&supportedPackages](const std::string& packageName) {
+            bool toErase = !supportedPackages.contains(packageName);
 
-                if (!toInstall)
-                {
-                    Utils::PrintPretty(
-                        Utils::MessageSeverity::WARNING,
-                        std::format("Package {} was not found, it will not be installed", name));
-                }
+            if (toErase)
+            {
+                Utils::PrintPretty(
+                    Utils::MessageSeverity::WARNING,
+                    std::format("Package {} is not recognized by ggpkg. It will not be installed",
+                                packageName));
+            }
 
-                return toInstall;
-            });
+            return toErase;
+        });
 
-        if (std::ranges::distance(packagesToInstall) == 0)
+        if (packageNames.empty())
         {
             Utils::PrintPretty(Utils::MessageSeverity::ERROR,
                                "None of the specified package can be installed");
             std::exit(EXIT_FAILURE);
         }
 
-        if (DefaultInstall(packageManager.value(), packagesToInstall))
+        if (DefaultInstall(packageManager.value(), packageNames))
             std::exit(EXIT_FAILURE);
 
         std::exit(EXIT_SUCCESS);

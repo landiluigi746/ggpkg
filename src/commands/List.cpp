@@ -14,7 +14,7 @@ namespace ggpkg::Commands
 {
     static void InteractiveList(const Packages& packages, const PackageManagerInfo& packageManager)
     {
-        auto availablePackages = GetAvailablePackages(packages, packageManager);
+        AvailablePackages availablePackages = GetAvailablePackages(packages, packageManager);
 
         std::string searchQuery;
         std::vector<std::string> packageNames;
@@ -116,7 +116,7 @@ namespace ggpkg::Commands
 
     static void DefaultList(const Packages& packages, const PackageManagerInfo& packageManager)
     {
-        auto availablePackages = GetAvailablePackages(packages, packageManager);
+        AvailablePackages availablePackages = GetAvailablePackages(packages, packageManager);
 
         ftxui::Elements packageNames;
         ftxui::Elements packageProviderNames;

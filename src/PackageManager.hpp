@@ -17,19 +17,16 @@ namespace ggpkg
     Utils::Result<void> DetectPackageManager();
     Utils::Result<PackageManagerInfo> GetPackageManager();
 
-    inline bool IsPackageAvailable(const PackageInstallInfo& package,
-                                   const PackageManagerInfo& packageManager)
+    inline AvailablePackages GetAvailablePackages(const Packages& packages,
+                                                  const PackageManagerInfo& packageManager)
     {
-        return package.providers.contains(packageManager.cmd);
-    }
+        auto view = packages | std::views::filter([&packageManager](const PackageInstallInfo& package) {
+                        return package.providers.contains(packageManager.cmd);
+                    }) |
+                    std::views::transform([&packageManager](const PackageInstallInfo& package) {
+                        return std::make_pair(package.name, package.providers.at(packageManager.cmd));
+                    });
 
-    inline auto GetAvailablePackages(const Packages& packages, const PackageManagerInfo& packageManager)
-    {
-        return packages | std::views::filter([&packageManager](const auto& package) {
-                   return IsPackageAvailable(package, packageManager);
-               }) |
-               std::views::transform([&packageManager](const auto& package) {
-                   return std::make_pair(package.name, package.providers.at(packageManager.cmd));
-               });
+        return AvailablePackages(std::ranges::begin(view), std::ranges::end(view));
     }
 } // namespace ggpkg
