@@ -1,5 +1,86 @@
 [
   {
+    "name": "vscode",
+    "providers": {
+      "pacman": "code",
+      "winget": "Microsoft.VisualStudioCode"
+    }
+  },
+  {
+    "name": "vs2022",
+    "providers": { "winget": "Microsoft.VisualStudio.2022.Community" }
+  },
+  {
+    "name": "zed",
+    "providers": { "pacman": "zed" }
+  },
+  {
+    "name": "neovim",
+    "providers": {
+      "pacman": "neovim",
+      "apt": "neovim",
+      "winget": "Neovim.Neovim"
+    }
+  },
+  {
+    "name": "notepad++",
+    "providers": {
+      "winget": "Notepad++.Notepad++"
+    }
+  },
+  {
+    "name": "intellij-idea-ce",
+    "providers": {
+      "pacman": "intellij-idea-community-edition",
+      "winget": "JetBrains.IntelliJIDEA.Community"
+    }
+  },
+  {
+    "name": "pycharm-ce",
+    "providers": {
+      "pacman": "pycharm-community-edition",
+      "winget": "JetBrains.PyCharm.Community"
+    }
+  },
+  {
+    "name": "codeblocks",
+    "providers": {
+      "pacman": "codeblocks",
+      "winget": "Codeblocks.Codeblocks"
+    }
+  },
+  {
+    "name": "go",
+    "providers": {
+      "pacman": "go",
+      "apt": "golang-go",
+      "winget": "GoLang.Go"
+    }
+  },
+  {
+    "name": "openjdk-17",
+    "providers": {
+      "pacman": "jdk17-openjdk",
+      "apt": "openjdk-17-jdk",
+      "winget": "Oracle.JDK.17"
+    }
+  },
+  {
+    "name": "openjdk-21",
+    "providers": {
+      "pacman": "jdk21-openjdk",
+      "apt": "openjdk-21-jdk",
+      "winget": "Oracle.JDK.21"
+    }
+  },
+  {
+    "name": "gdb",
+    "providers": {
+      "pacman": "gdb",
+      "apt": "gdb"
+    }
+  },
+  {
     "name": "cmake",
     "providers": {
       "pacman": "cmake",
@@ -16,33 +97,19 @@
     }
   },
   {
+    "name": "make",
+    "providers": {
+      "pacman": "make",
+      "apt": "make",
+      "winget": "GnuWin32.Make"
+    }
+  },
+  {
     "name": "git",
     "providers": {
       "pacman": "git",
       "apt": "git",
       "winget": "Git.Git"
-    }
-  },
-  {
-    "name": "vscode",
-    "providers": {
-      "pacman": "code",
-      "winget": "Microsoft.VisualStudioCode"
-    }
-  },
-  {
-    "name": "vs2022",
-    "providers": { "winget": "Microsoft.VisualStudio.2022.Community" }
-  },
-  {
-    "name": "zed",
-    "providers": { "pacman": "zed" }
-  },
-  {
-    "name": "gdb",
-    "providers": {
-      "pacman": "gdb",
-      "apt": "gdb"
     }
   },
   {
@@ -75,12 +142,6 @@
     }
   },
   {
-    "name": "notepad++",
-    "providers": {
-      "winget": "Notepad++.Notepad++"
-    }
-  },
-  {
     "name": "epicgames",
     "providers": {
       "winget": "EpicGames.EpicGamesLauncher"
@@ -92,6 +153,13 @@
       "pacman": "gimp",
       "apt": "gimp",
       "winget": "GIMP.GIMP"
+    }
+  },
+  {
+    "name": "spotify",
+    "providers": {
+      "pacman": "spotify-launcher",
+      "winget": "Spotify.Spotify"
     }
   }
 ]
