@@ -1,6 +1,7 @@
 #include "commands/Commands.hpp"
 #include "PackageManager.hpp"
 #include "Package.hpp"
+#include "utils/Utils.hpp"
 
 #include <print>
 #include <cstdlib>
@@ -159,13 +160,13 @@ namespace ggpkg::Commands
 
         if (!packageManager)
         {
-            std::println("ERROR: {}", packageManager.error());
+            Utils::PrintPretty(Utils::MessageSeverity::ERROR, packageManager.error());
             std::exit(EXIT_FAILURE);
         }
 
         if (!packages)
         {
-            std::println("ERROR: {}", packages.error());
+            Utils::PrintPretty(Utils::MessageSeverity::ERROR, packages.error());
             std::exit(EXIT_FAILURE);
         }
 

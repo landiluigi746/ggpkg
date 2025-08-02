@@ -1,7 +1,7 @@
 #include "commands/Commands.hpp"
 #include "PackageManager.hpp"
+#include "utils/Utils.hpp"
 
-#include <print>
 #include <cstdlib>
 
 namespace ggpkg::Commands
@@ -10,11 +10,11 @@ namespace ggpkg::Commands
     {
         if (auto ec = ggpkg::DetectPackageManager(); !ec)
         {
-            std::println("ERROR: {}", ec.error());
+            Utils::PrintPretty(Utils::MessageSeverity::ERROR, ec.error());
             std::exit(EXIT_FAILURE);
         }
 
-        std::println("Configuration completed successfully!");
+        Utils::PrintPretty(Utils::MessageSeverity::OK, "Configuration completed successfully!");
         std::exit(EXIT_SUCCESS);
     }
 } // namespace ggpkg::Commands

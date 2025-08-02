@@ -74,7 +74,7 @@ namespace ggpkg
         const std::string pathStr = Config::PACKAGE_MANAGER_CONFIG_PATH.string();
 
         if (!std::filesystem::is_regular_file(Config::PACKAGE_MANAGER_CONFIG_PATH))
-            return Utils::Error(std::format("Package manager config file does ({}) not exist. "
+            return Utils::Error(std::format("Package manager config file ({}) does not exist. "
                                             "Configure it automatically using `ggpkg configure`",
                                             pathStr));
 

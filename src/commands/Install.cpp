@@ -4,7 +4,6 @@
 #include "utils/Utils.hpp"
 
 #include <cstdlib>
-#include <print>
 #include <ranges>
 #include <unordered_set>
 
@@ -12,19 +11,23 @@ namespace ggpkg::Commands
 {
     static int DefaultInstall(const PackageManagerInfo& packageManager, auto& packageNames)
     {
-        std::string command = std::format("{} {} ", packageManager.cmd, packageManager.install);
+        std::string packagesStr;
 
         for (const std::string& packageName : packageNames)
-            command += packageName + ' ';
+            packagesStr += packageName + ' ';
 
-        return Utils::System(command);
+        Utils::PrintPretty(Utils::MessageSeverity::OK,
+                           std::format("The following packages will be installed: {}", packagesStr));
+
+        return Utils::System(
+            std::format("{} {} {}", packageManager.cmd, packageManager.install, packagesStr));
     }
 
     void Install(const std::vector<std::string>& packageNames)
     {
         if (packageNames.empty())
         {
-            std::println("ERROR: No packages specified");
+            Utils::PrintPretty(Utils::MessageSeverity::ERROR, "No packages specified");
             std::exit(EXIT_FAILURE);
         }
 
@@ -33,13 +36,13 @@ namespace ggpkg::Commands
 
         if (!packageManager)
         {
-            std::println("ERROR: {}", packageManager.error());
+            Utils::PrintPretty(Utils::MessageSeverity::ERROR, packageManager.error());
             std::exit(EXIT_FAILURE);
         }
 
         if (!packages)
         {
-            std::println("ERROR: {}", packages.error());
+            Utils::PrintPretty(Utils::MessageSeverity::ERROR, packages.error());
             std::exit(EXIT_FAILURE);
         }
 
@@ -56,14 +59,19 @@ namespace ggpkg::Commands
                 bool toInstall = availablePackageNames.contains(name);
 
                 if (!toInstall)
-                    std::println("WARNING: Package {} was not found, it will not be installed", name);
+                {
+                    Utils::PrintPretty(
+                        Utils::MessageSeverity::WARNING,
+                        std::format("Package {} was not found, it will not be installed", name));
+                }
 
                 return toInstall;
             });
 
         if (std::ranges::distance(packagesToInstall) == 0)
         {
-            std::println("ERROR: None of the specified package can be installed");
+            Utils::PrintPretty(Utils::MessageSeverity::ERROR,
+                               "None of the specified package can be installed");
             std::exit(EXIT_FAILURE);
         }
 
