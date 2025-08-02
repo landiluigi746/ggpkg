@@ -9,7 +9,7 @@ namespace ggpkg
         app.add_subcommand(
             "configure",
             "Detect compatible package manager automatically and save it in the config path"
-        )->callback(&Commands::Configure);
+        )->alias("autoconfig")->callback(&Commands::Configure);
 
         app.add_subcommand(
             "test",
@@ -21,7 +21,8 @@ namespace ggpkg
             "list",
             "List packages supported by ggpkg for your package manager"
         );
-        listCmd->add_flag("-i", *listInteractive, "Enables interactive mode");
+        listCmd->alias("ls");
+        listCmd->add_flag("-i,--interactive", *listInteractive, "Enables interactive mode");
         listCmd->callback([listInteractive]{
             Commands::List(*listInteractive);
         });
@@ -31,6 +32,7 @@ namespace ggpkg
             "install",
             "Install specified packages if they are available with your package manager"
         );
+        installCmd->alias("add");
         installCmd->add_option("packages", *installPackages, "Packages to install");
         installCmd->callback([installPackages]{
             Commands::Install(*installPackages);
@@ -46,6 +48,7 @@ namespace ggpkg
             "uninstall",
             "Uninstall specified packages if they are available with your package manager"
         );
+        uninstallCmd->alias("remove");
         uninstallCmd->add_option("packages", *uninstallPackages, "Packages to uninstall");
         uninstallCmd->callback([uninstallPackages]{
             Commands::Uninstall(*uninstallPackages);
