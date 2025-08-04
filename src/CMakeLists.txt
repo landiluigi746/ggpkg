@@ -70,3 +70,8 @@ target_precompile_headers(
     <algorithm>
     <chrono>
 )
+
+install(
+    TARGETS ${PROJECT_NAME}
+    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+)
