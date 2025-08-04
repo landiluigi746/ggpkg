@@ -30,4 +30,7 @@ namespace ggpkg::Config
 #else
 #error "Unsupported platform"
 #endif
+
+    inline const std::string PACKAGE_DATABASE_URL =
+        "https://raw.githubusercontent.com/landiluigi746/ggpkg/refs/heads/master/packages.json";
 } // namespace ggpkg::Config

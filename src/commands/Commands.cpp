@@ -8,7 +8,7 @@ namespace ggpkg
         // clang-format off
         app.add_subcommand(
             "configure",
-            "Detect compatible package manager automatically and save it in the config path"
+            "Detect compatible package manager automatically and download latest gppkg pacakge database"
         )->alias("autoconfig")->callback(&Commands::Configure);
 
         app.add_subcommand(

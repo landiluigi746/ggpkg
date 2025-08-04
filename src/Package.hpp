@@ -17,5 +17,6 @@ namespace ggpkg
     using Packages = std::vector<PackageInstallInfo>;
     using AvailablePackages = std::vector<std::pair<std::string, std::string>>;
 
+    Utils::Result<void> DownloadPackageDatabase();
     Utils::Result<Packages> GetPackages();
 } // namespace ggpkg
