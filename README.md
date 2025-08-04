@@ -48,7 +48,7 @@ sudo cmake --install build-release
 ### First Time Setup
 
 ```bash
-# Configure ggpkg to detect your package manager
+# Configure ggpkg to detect your package manager and download package database
 ggpkg configure
 
 # Test the configuration
@@ -64,6 +64,9 @@ ggpkg test
 ggpkg configure
 # or
 ggpkg autoconfig
+
+# Fetch latest ggpkg package database
+ggpkg update-db
 
 # Test current configuration
 ggpkg test

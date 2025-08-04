@@ -57,9 +57,7 @@ namespace ggpkg
 
         if (!std::filesystem::is_regular_file(Config::PACKAGES_CONFIG_PATH))
             return Utils::Error(std::format("Packages config file ({}) does not exist. "
-                                            "You can download it from "
-                                            "https://raw.githubusercontent.com/landiluigi746/ggpkg/"
-                                            "refs/heads/master/packages.json",
+                                            "You can download it with `ggpkg update-db`",
                                             pathStr));
 
         if (auto ec = glz::read_file_json(packages, pathStr, buffer); ec)
