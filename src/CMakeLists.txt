@@ -36,7 +36,7 @@ elseif(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
     set(OPTIONS_WARNINGS -Wall -Wpedantic)
 
     if(CMAKE_BUILD_TYPE STREQUAL "Release")
-        set(OPTIONS_OPTIMIZATION -O3)
+        set(OPTIONS_OPTIMIZATION -O2)
     elseif(CMAKE_BUILD_TYPE STREQUAL "Debug")
         set(OPTIONS_OPTIMIZATION -g)
     elseif(CMAKE_BUILD_TYPE STREQUAL "RelWithDebInfo")
