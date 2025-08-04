@@ -16,6 +16,11 @@ namespace ggpkg
             "Test package manager provided by the file in config path, if present"
         )->callback(&Commands::Test);
 
+        app.add_subcommand(
+            "update-db",
+            "Update ggpkg package database with the latest packages"
+        )->callback(&Commands::UpdatePackages);
+
         auto listInteractive = std::make_shared<bool>(false);
         auto* listCmd = app.add_subcommand(
             "list",
