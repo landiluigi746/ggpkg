@@ -18,6 +18,7 @@ target_link_libraries(
     glaze::glaze
     OpenSSL::SSL
     OpenSSL::Crypto
+    cpr::cpr
 )
 
 if(MSVC)

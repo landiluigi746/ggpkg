@@ -22,5 +22,6 @@ find_package(OpenSSL REQUIRED)
 find_package(ftxui CONFIG REQUIRED)
 find_package(glaze CONFIG REQUIRED)
 find_package(CLI11 CONFIG REQUIRED)
+find_package(cpr CONFIG REQUIRED)
 
 add_subdirectory(src)
