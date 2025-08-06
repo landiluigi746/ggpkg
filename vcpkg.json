@@ -6,5 +6,6 @@
     "glaze",
     "openssl",
     "cpr"
-  ]
+  ],
+  "builtin-baseline": "dc24bf5437ff029709d8d0996083fd116654c762"
 }
