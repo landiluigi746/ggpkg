@@ -130,7 +130,6 @@
     "name": "discord",
     "providers": {
       "pacman": "discord",
-      "apt": "discord",
       "winget": "Discord.Discord"
     }
   },
@@ -160,6 +159,77 @@
     "providers": {
       "pacman": "spotify-launcher",
       "winget": "Spotify.Spotify"
+    }
+  },
+  {
+    "name": "vlc",
+    "providers": {
+      "pacman": "vlc",
+      "apt": "vlc",
+      "winget": "VideoLAN.VLC"
+    }
+  },
+  {
+    "name": "shotcut",
+    "providers": {
+      "pacman": "shotcut",
+      "apt": "shotcut",
+      "winget": "Shotcut.Shotcut"
+    }
+  },
+  {
+    "name": "obs-studio",
+    "providers": {
+      "pacman": "obs-studio",
+      "apt": "obs-studio",
+      "winget": "OBSProject.OBSStudio"
+    }
+  },
+  {
+    "name": "blender",
+    "providers": {
+      "pacman": "blender",
+      "apt": "blender",
+      "winget": "BlenderFoundation.Blender"
+    }
+  },
+  {
+    "name": "audacity",
+    "providers": {
+      "pacman": "audacity",
+      "apt": "audacity",
+      "winget": "Audacity.Audacity"
+    }
+  },
+  {
+    "name": "qbittorrent",
+    "providers": {
+      "pacman": "qbittorrent",
+      "apt": "qbittorrent",
+      "winget": "qBittorrent.qBittorrent"
+    }
+  },
+  {
+    "name": "kdenlive",
+    "providers": {
+      "pacman": "kdenlive",
+      "winget": "KDE.Kdenlive"
+    }
+  },
+  {
+    "name": "7zip",
+    "providers": {
+      "pacman": "7zip",
+      "apt": "7zip",
+      "winget": "7zip.7zip"
+    }
+  },
+  {
+    "name": "ffmpeg",
+    "providers": {
+      "pacman": "ffmpeg",
+      "apt": "ffmpeg",
+      "winget": "Gyan.FFmpeg"
     }
   }
 ]
