@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.16.0 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.21.0 FATAL_ERROR)
 
 project(ggpkg LANGUAGES CXX)
 
@@ -22,6 +22,7 @@ find_package(OpenSSL REQUIRED)
 find_package(ftxui CONFIG REQUIRED)
 find_package(glaze CONFIG REQUIRED)
 find_package(CLI11 CONFIG REQUIRED)
+find_package(ZLIB REQUIRED)
 find_package(cpr CONFIG REQUIRED)
 
 add_subdirectory(src)

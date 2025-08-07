@@ -15,6 +15,7 @@ target_link_libraries(
     ftxui::dom
     ftxui::screen
     ftxui::component
+    ZLIB::ZLIB
     glaze::glaze
     OpenSSL::SSL
     OpenSSL::Crypto
@@ -73,6 +74,18 @@ target_precompile_headers(
 )
 
 install(
-    TARGETS ${PROJECT_NAME}
+    TARGETS ${PROJECT_NAME} 
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
 )
+
+# Install DLLs on Windows
+if(WIN32)
+    install(
+        TARGETS ${PROJECT_NAME}
+        COMPONENT ${PROJECT_NAME}
+        RUNTIME_DEPENDENCIES
+        PRE_EXCLUDE_REGEXES "api-ms-" "ext-ms-"
+        POST_EXCLUDE_REGEXES ".*system32/.*\\.dll"
+        DIRECTORIES $<TARGET_FILE_DIR:${PROJECT_NAME}>
+    )
+endif()
