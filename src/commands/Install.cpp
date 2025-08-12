@@ -6,10 +6,12 @@
 #include <algorithm>
 #include <cstdlib>
 #include <unordered_set>
+#include <print>
 
 namespace ggpkg::Commands
 {
     static int DefaultInstall(const PackageManagerInfo& packageManager,
+                              const AvailablePackages& availablePackages,
                               const std::vector<std::string>& packageNames)
     {
         std::string packagesStr;
@@ -31,8 +33,8 @@ namespace ggpkg::Commands
 
             for (const std::string& packageName : packageNames)
             {
-                ret += Utils::System(
-                    std::format("{} {} {}", packageManager.cmd, packageManager.install, packageName));
+                ret += Utils::System(std::format("{} {} {}", packageManager.cmd, packageManager.install,
+                                                 availablePackages.at(packageName)));
             }
 
             return ret;
@@ -69,14 +71,8 @@ namespace ggpkg::Commands
         AvailablePackages availablePackages =
             GetAvailablePackages(packages.value(), packageManager.value());
 
-        std::unordered_set<std::string> supportedPackages;
-        supportedPackages.reserve(std::size(availablePackages));
-
-        for (const auto& [name, _] : availablePackages)
-            supportedPackages.emplace(name);
-
-        std::erase_if(packageNames, [&supportedPackages](const std::string& packageName) {
-            bool toErase = !supportedPackages.contains(packageName);
+        std::erase_if(packageNames, [&availablePackages](std::string& packageName) {
+            bool toErase = !availablePackages.contains(packageName);
 
             if (toErase)
             {
@@ -96,7 +92,7 @@ namespace ggpkg::Commands
             std::exit(EXIT_FAILURE);
         }
 
-        if (DefaultInstall(packageManager.value(), packageNames))
+        if (DefaultInstall(packageManager.value(), availablePackages, packageNames))
             std::exit(EXIT_FAILURE);
 
         std::exit(EXIT_SUCCESS);

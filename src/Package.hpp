@@ -15,7 +15,8 @@ namespace ggpkg
     };
 
     using Packages = std::vector<PackageInstallInfo>;
-    using AvailablePackages = std::vector<std::pair<std::string, std::string>>;
+    using AvailablePackages =
+        std::unordered_map<std::string, std::string, Utils::StringHash, std::equal_to<>>;
 
     Utils::Result<void> DownloadPackageDatabase();
     Utils::Result<Packages> GetPackages();
