@@ -33,4 +33,12 @@ namespace ggpkg
 
         return AvailablePackages(std::ranges::begin(view), std::ranges::end(view));
     }
+
+    int InstallPackages(const PackageManagerInfo& packageManager,
+                        const AvailablePackages& availablePackages,
+                        const std::vector<std::string>& packageNames);
+
+    int UninstallPackages(const PackageManagerInfo& packageManager,
+                          const AvailablePackages& availablePackages,
+                          const std::vector<std::string>& packageNames);
 } // namespace ggpkg

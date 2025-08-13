@@ -112,4 +112,67 @@ namespace ggpkg
 
         return packageManagerInfo;
     }
+
+    int InstallPackages(const PackageManagerInfo& packageManager,
+                        const AvailablePackages& availablePackages,
+                        const std::vector<std::string>& packageNames)
+    {
+        std::string packagesStr;
+
+        for (const std::string& packageName : packageNames)
+            packagesStr += packageName + ' ';
+
+        Utils::PrintPretty(Utils::MessageSeverity::OK,
+                           std::format("The following packages will be installed: {}", packagesStr));
+
+        if (packageManager.installBatch)
+        {
+            return Utils::System(
+                std::format("{} {} {}", packageManager.cmd, packageManager.install, packagesStr));
+        }
+        else
+        {
+            int ret = 0;
+
+            for (const std::string& packageName : packageNames)
+            {
+                ret += Utils::System(std::format("{} {} {}", packageManager.cmd, packageManager.install,
+                                                 availablePackages.at(packageName)));
+            }
+
+            return ret;
+        }
+    }
+
+    int UninstallPackages(const PackageManagerInfo& packageManager,
+                          const AvailablePackages& availablePackages,
+                          const std::vector<std::string>& packageNames)
+    {
+        std::string packagesStr;
+
+        for (const std::string& packageName : packageNames)
+            packagesStr += packageName + ' ';
+
+        Utils::PrintPretty(Utils::MessageSeverity::OK,
+                           std::format("The following packages will be uninstalled: {}", packagesStr));
+
+        if (packageManager.uninstallBatch)
+        {
+            return Utils::System(
+                std::format("{} {} {}", packageManager.cmd, packageManager.uninstall, packagesStr));
+        }
+        else
+        {
+            int ret = 0;
+
+            for (const std::string& packageName : packageNames)
+            {
+                ret +=
+                    Utils::System(std::format("{} {} {}", packageManager.cmd, packageManager.uninstall,
+                                              availablePackages.at(packageName)));
+            }
+
+            return ret;
+        }
+    }
 } // namespace ggpkg

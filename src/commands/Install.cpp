@@ -10,37 +10,6 @@
 
 namespace ggpkg::Commands
 {
-    static int DefaultInstall(const PackageManagerInfo& packageManager,
-                              const AvailablePackages& availablePackages,
-                              const std::vector<std::string>& packageNames)
-    {
-        std::string packagesStr;
-
-        for (const std::string& packageName : packageNames)
-            packagesStr += packageName + ' ';
-
-        Utils::PrintPretty(Utils::MessageSeverity::OK,
-                           std::format("The following packages will be installed: {}", packagesStr));
-
-        if (packageManager.installBatch)
-        {
-            return Utils::System(
-                std::format("{} {} {}", packageManager.cmd, packageManager.install, packagesStr));
-        }
-        else
-        {
-            int ret = 0;
-
-            for (const std::string& packageName : packageNames)
-            {
-                ret += Utils::System(std::format("{} {} {}", packageManager.cmd, packageManager.install,
-                                                 availablePackages.at(packageName)));
-            }
-
-            return ret;
-        }
-    }
-
     void Install(std::vector<std::string>& packageNames)
     {
         if (packageNames.empty())
@@ -92,7 +61,7 @@ namespace ggpkg::Commands
             std::exit(EXIT_FAILURE);
         }
 
-        if (DefaultInstall(packageManager.value(), availablePackages, packageNames))
+        if (InstallPackages(packageManager.value(), availablePackages, packageNames))
             std::exit(EXIT_FAILURE);
 
         std::exit(EXIT_SUCCESS);
