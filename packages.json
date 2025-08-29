@@ -2,7 +2,7 @@
   {
     "name": "vscode",
     "providers": {
-      "pacman": "code",
+      "pacman": "visual-studio-code-bin",
       "winget": "Microsoft.VisualStudioCode"
     }
   },
@@ -74,6 +74,42 @@
     }
   },
   {
+    "name": "nodejs",
+    "providers": {
+      "pacman": "nodejs",
+      "apt": "nodejs",
+      "winget": "OpenJS.NodeJS"
+    }
+  },
+  {
+    "name": "npm",
+    "providers": {
+      "pacman": "npm",
+      "apt": "npm",
+      "winget": "OpenJS.NodeJS"
+    }
+  },
+  {
+    "name": "bun",
+    "providers": {
+      "winget": "Oven-sh.Bun"
+    }
+  },
+  {
+    "name": "yarn",
+    "providers": {
+      "pacman": "yarn",
+      "winget": "Yarn.Yarn"
+    }
+  },
+  {
+    "name": "rust",
+    "providers": {
+      "pacman": "rustup",
+      "winget": "Rustlang.Rustup"
+    }
+  },
+  {
     "name": "gdb",
     "providers": {
       "pacman": "gdb",
@@ -110,6 +146,57 @@
       "pacman": "git",
       "apt": "git",
       "winget": "Git.Git"
+    }
+  },
+  {
+    "name": "lazygit",
+    "providers": {
+      "pacman": "lazygit",
+      "apt": "lazygit",
+      "winget": "JesseDuffield.LazyGit"
+    }
+  },
+  {
+    "name": "docker",
+    "providers": {
+      "pacman": "docker",
+      "winget": "Docker.DockerDesktop"
+    }
+  },
+  {
+    "name": "docker-compose",
+    "providers": {
+      "pacman": "docker-compose",
+      "winget": "Docker.DockerCompose"
+    }
+  },
+  {
+    "name": "curl",
+    "providers": {
+      "pacman": "curl",
+      "apt": "curl",
+      "winget": "cURL.cURL"
+    }
+  },
+  {
+    "name": "wget",
+    "providers": {
+      "pacman": "wget",
+      "apt": "wget",
+      "winget": "JernejSimoncic.Wget"
+    }
+  },
+  {
+    "name": "postman",
+    "providers": {
+      "winget": "Postman.Postman"
+    }
+  },
+  {
+    "name": "github-cli",
+    "providers": {
+      "pacman": "github-cli",
+      "winget": "GitHub.cli"
     }
   },
   {
@@ -152,6 +239,14 @@
       "pacman": "gimp",
       "apt": "gimp",
       "winget": "GIMP.GIMP"
+    }
+  },
+  {
+    "name": "krita",
+    "providers": {
+      "pacman": "krita",
+      "apt": "krita",
+      "winget": "KDE.Krita"
     }
   },
   {
@@ -230,6 +325,12 @@
       "pacman": "ffmpeg",
       "apt": "ffmpeg",
       "winget": "Gyan.FFmpeg"
+    }
+  },
+  {
+    "name": "windhawk",
+    "providers": {
+      "winget": "RamenSoftware.WindHawk"
     }
   }
 ]
