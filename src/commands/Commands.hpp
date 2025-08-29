@@ -17,5 +17,6 @@ namespace ggpkg
         [[noreturn]] void Install(std::vector<std::string>& packageNames);
         [[noreturn]] void Update();
         [[noreturn]] void Uninstall(std::vector<std::string>& packageNames);
+        [[noreturn]] void UpgradeAll();
     } // namespace Commands
 } // namespace ggpkg

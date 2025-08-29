@@ -58,6 +58,11 @@ namespace ggpkg
         uninstallCmd->callback([uninstallPackages]{
             Commands::Uninstall(*uninstallPackages);
         });
+
+        app.add_subcommand(
+            "upgrade-all",
+            "Upgrade all packages installed on the system recognized by your package manager"
+        )->callback(&Commands::UpgradeAll);
         // clang-format on
     }
 } // namespace ggpkg

@@ -56,6 +56,7 @@ namespace ggpkg
                 .install = "install -e --id",
                 .uninstall = "uninstall",
                 .update = "source update",
+                .upgradeAll = "upgrade --all",
                 .installBatch = false,
                 .uninstallBatch = false,
             },
@@ -66,6 +67,7 @@ namespace ggpkg
                 .install = "-S",
                 .uninstall = "-R",
                 .update = "-Sy",
+                .upgradeAll = "-Syu",
                 .installBatch = true,
                 .uninstallBatch = true,
             },
@@ -75,6 +77,7 @@ namespace ggpkg
                 .install = "install",
                 .uninstall = "remove",
                 .update = "update",
+                .upgradeAll = "upgrade",
                 .installBatch = true,
                 .uninstallBatch = true,
             }

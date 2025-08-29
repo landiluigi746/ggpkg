@@ -14,6 +14,7 @@ namespace ggpkg
         std::string install;
         std::string uninstall;
         std::string update;
+        std::string upgradeAll;
         bool installBatch;
         bool uninstallBatch;
     };
