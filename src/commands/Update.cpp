@@ -6,11 +6,6 @@
 
 namespace ggpkg::Commands
 {
-    static int DefaultUpdate(const PackageManagerInfo& packageManager)
-    {
-        return Utils::System(std::format("{} {}", packageManager.cmd, packageManager.update));
-    }
-
     void Update()
     {
         auto packageManager = ggpkg::GetPackageManager();
@@ -21,7 +16,7 @@ namespace ggpkg::Commands
             std::exit(EXIT_FAILURE);
         }
 
-        if (DefaultUpdate(packageManager.value()))
+        if (Utils::System(std::format("{} {}", packageManager->cmd, packageManager->update)))
             std::exit(EXIT_FAILURE);
 
         std::exit(EXIT_SUCCESS);

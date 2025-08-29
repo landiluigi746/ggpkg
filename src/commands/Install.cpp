@@ -5,8 +5,6 @@
 
 #include <algorithm>
 #include <cstdlib>
-#include <unordered_set>
-#include <print>
 
 namespace ggpkg::Commands
 {
