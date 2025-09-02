@@ -26,5 +26,12 @@ namespace ggpkg::Utils
 
     ftxui::Element Banner();
     void DisableCursor(ftxui::ScreenInteractive& screen);
+
+    template<typename... Args>
+    void PrintPretty(MessageSeverity severity, const std::format_string<Args...>& formatString,
+                     Args&&... args);
+
     void PrintPretty(MessageSeverity severity, const std::string_view& message);
 } // namespace ggpkg::Utils
+
+#include "utils/Utils.inl"

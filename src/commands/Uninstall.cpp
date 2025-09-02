@@ -44,9 +44,9 @@ namespace ggpkg::Commands
             if (toErase)
             {
                 Utils::PrintPretty(Utils::MessageSeverity::WARNING,
-                                   std::format("Package {} is not available for your package manager. "
-                                               "It will not be installed",
-                                               packageName));
+                                   "Package {} is not available for your package manager. "
+                                   "It will not be installed",
+                                   packageName);
             }
 
             return toErase;

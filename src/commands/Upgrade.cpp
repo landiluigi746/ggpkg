@@ -52,9 +52,9 @@ namespace ggpkg::Commands
             if (toErase)
             {
                 Utils::PrintPretty(Utils::MessageSeverity::WARNING,
-                                   std::format("Package {} is not available for your package manager. "
-                                               "It will not be upgraded",
-                                               packageName));
+                                   "Package {} is not available for your package manager. "
+                                   "It will not be upgraded",
+                                   packageName);
             }
 
             return toErase;

@@ -131,8 +131,8 @@ namespace ggpkg
         for (const std::string& packageName : packageNames)
             packagesStr += packageName + ' ';
 
-        Utils::PrintPretty(Utils::MessageSeverity::OK,
-                           std::format("The following packages will be installed: {}", packagesStr));
+        Utils::PrintPretty(Utils::MessageSeverity::OK, "The following packages will be installed: {}",
+                           packagesStr);
 
         if (packageManager.installBatch)
         {
@@ -167,8 +167,8 @@ namespace ggpkg
         for (const std::string& packageName : packageNames)
             packagesStr += packageName + ' ';
 
-        Utils::PrintPretty(Utils::MessageSeverity::OK,
-                           std::format("The following packages will be uninstalled: {}", packagesStr));
+        Utils::PrintPretty(Utils::MessageSeverity::OK, "The following packages will be uninstalled: {}",
+                           packagesStr);
 
         if (packageManager.uninstallBatch)
         {
@@ -204,8 +204,8 @@ namespace ggpkg
         for (const std::string& packageName : packageNames)
             packagesStr += packageName + ' ';
 
-        Utils::PrintPretty(Utils::MessageSeverity::OK,
-                           std::format("The following packages will be upgraded: {}", packagesStr));
+        Utils::PrintPretty(Utils::MessageSeverity::OK, "The following packages will be upgraded: {}",
+                           packagesStr);
 
         if (packageManager.upgradeBatch)
         {
