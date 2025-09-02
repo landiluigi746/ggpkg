@@ -2,7 +2,7 @@
   {
     "name": "vscode",
     "providers": {
-      "pacman": "visual-studio-code-bin",
+      "pacman": "code",
       "winget": "Microsoft.VisualStudioCode"
     }
   },
