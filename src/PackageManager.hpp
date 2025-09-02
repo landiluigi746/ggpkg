@@ -15,8 +15,10 @@ namespace ggpkg
         std::string uninstall;
         std::string update;
         std::string upgradeAll;
+        std::string upgrade;
         bool installBatch;
         bool uninstallBatch;
+        bool upgradeBatch;
     };
 
     Utils::Result<void> DetectPackageManager();
@@ -42,4 +44,8 @@ namespace ggpkg
     int UninstallPackages(const PackageManagerInfo& packageManager,
                           const AvailablePackages& availablePackages,
                           const std::vector<std::string>& packageNames);
+
+    int UpgradePackages(const PackageManagerInfo& packageManager,
+                        const AvailablePackages& availablePackages,
+                        const std::vector<std::string>& packageNames);
 } // namespace ggpkg

@@ -57,8 +57,10 @@ namespace ggpkg
                 .uninstall = "uninstall",
                 .update = "source update",
                 .upgradeAll = "upgrade --all",
+                .upgrade = "upgrade -e --id",
                 .installBatch = false,
                 .uninstallBatch = false,
+                .upgradeBatch = false,
             },
 #elif defined(__linux__)
             PackageManagerInfo{
@@ -68,8 +70,10 @@ namespace ggpkg
                 .uninstall = "-R",
                 .update = "-Sy",
                 .upgradeAll = "-Syu",
+                .upgrade = "",
                 .installBatch = true,
                 .uninstallBatch = true,
+                .upgradeBatch = false,
             },
             PackageManagerInfo{
                 .cmd = "apt",
@@ -78,8 +82,10 @@ namespace ggpkg
                 .uninstall = "remove",
                 .update = "update",
                 .upgradeAll = "upgrade",
+                .upgrade = "install --only-upgrade",
                 .installBatch = true,
                 .uninstallBatch = true,
+                .upgradeBatch = true,
             }
 #endif
         });
@@ -130,6 +136,11 @@ namespace ggpkg
 
         if (packageManager.installBatch)
         {
+            packagesStr.clear();
+
+            for (const std::string& packageName : packageNames)
+                packagesStr += availablePackages.at(packageName) + ' ';
+
             return Utils::System(
                 std::format("{} {} {}", packageManager.cmd, packageManager.install, packagesStr));
         }
@@ -161,6 +172,11 @@ namespace ggpkg
 
         if (packageManager.uninstallBatch)
         {
+            packagesStr.clear();
+
+            for (const std::string& packageName : packageNames)
+                packagesStr += availablePackages.at(packageName) + ' ';
+
             return Utils::System(
                 std::format("{} {} {}", packageManager.cmd, packageManager.uninstall, packagesStr));
         }
@@ -173,6 +189,42 @@ namespace ggpkg
                 ret +=
                     Utils::System(std::format("{} {} {}", packageManager.cmd, packageManager.uninstall,
                                               availablePackages.at(packageName)));
+            }
+
+            return ret;
+        }
+    }
+
+    int UpgradePackages(const PackageManagerInfo& packageManager,
+                        const AvailablePackages& availablePackages,
+                        const std::vector<std::string>& packageNames)
+    {
+        std::string packagesStr;
+
+        for (const std::string& packageName : packageNames)
+            packagesStr += packageName + ' ';
+
+        Utils::PrintPretty(Utils::MessageSeverity::OK,
+                           std::format("The following packages will be upgraded: {}", packagesStr));
+
+        if (packageManager.upgradeBatch)
+        {
+            packagesStr.clear();
+
+            for (const std::string& packageName : packageNames)
+                packagesStr += availablePackages.at(packageName) + ' ';
+
+            return Utils::System(
+                std::format("{} {} {}", packageManager.cmd, packageManager.upgrade, packagesStr));
+        }
+        else
+        {
+            int ret = 0;
+
+            for (const std::string& packageName : packageNames)
+            {
+                ret += Utils::System(std::format("{} {} {}", packageManager.cmd, packageManager.upgrade,
+                                                 availablePackages.at(packageName)));
             }
 
             return ret;

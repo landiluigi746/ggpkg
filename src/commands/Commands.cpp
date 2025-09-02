@@ -63,6 +63,16 @@ namespace ggpkg
             "upgrade-all",
             "Upgrade all packages installed on the system recognized by your package manager"
         )->callback(&Commands::UpgradeAll);
+
+        auto upgradePackages = std::make_shared<std::vector<std::string>>();
+        auto* upgradeCmd = app.add_subcommand(
+            "upgrade",
+            "Upgrade specified packages if they are available with your package manager"
+        );
+        upgradeCmd->add_option("packages", *upgradePackages, "Packages to upgrade");
+        upgradeCmd->callback([upgradePackages]{
+            Commands::Upgrade(*upgradePackages);
+        });
         // clang-format on
     }
 } // namespace ggpkg
