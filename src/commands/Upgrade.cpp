@@ -31,10 +31,10 @@ namespace ggpkg::Commands
 
         if (packageManager->upgrade.empty())
         {
-            Utils::PrintPretty(
-                Utils::MessageSeverity::ERROR,
-                std::format("Your package manager ({}) does not support package-specific upgrades",
-                            packageManager->cmd));
+            Utils::PrintPretty(Utils::MessageSeverity::ERROR,
+                               "Your package manager ({}) does not support package-specific upgrades",
+                               packageManager->cmd);
+            std::exit(EXIT_FAILURE);
         }
 
         if (!packages)
