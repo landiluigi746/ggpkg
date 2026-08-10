@@ -29,7 +29,7 @@ namespace ggpkg::Commands
             std::exit(EXIT_FAILURE);
         }
 
-        if (packageManager->upgrade.empty())
+        if (packageManager->actions[(size_t) PackageManagerActionType::Upgrade].cmd.empty())
         {
             Utils::PrintPretty(Utils::MessageSeverity::ERROR,
                                "Your package manager ({}) does not support package-specific upgrades",
@@ -67,7 +67,8 @@ namespace ggpkg::Commands
             std::exit(EXIT_FAILURE);
         }
 
-        if (UpgradePackages(packageManager.value(), availablePackages, packageNames))
+        if (PerformPackageManagerAction(PackageManagerActionType::Upgrade, packageManager.value(),
+                                        availablePackages, packageNames))
             std::exit(EXIT_FAILURE);
 
         std::exit(EXIT_SUCCESS);

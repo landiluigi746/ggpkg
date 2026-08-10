@@ -45,7 +45,7 @@ namespace ggpkg::Commands
             {
                 Utils::PrintPretty(Utils::MessageSeverity::WARNING,
                                    "Package {} is not available for your package manager. "
-                                   "It will not be installed",
+                                   "It will not be uninstalled",
                                    packageName);
             }
 
@@ -59,7 +59,8 @@ namespace ggpkg::Commands
             std::exit(EXIT_FAILURE);
         }
 
-        if (UninstallPackages(packageManager.value(), availablePackages, packageNames))
+        if (PerformPackageManagerAction(PackageManagerActionType::Uninstall, packageManager.value(),
+                                        availablePackages, packageNames))
             std::exit(EXIT_FAILURE);
 
         std::exit(EXIT_SUCCESS);

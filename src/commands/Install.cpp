@@ -59,7 +59,8 @@ namespace ggpkg::Commands
             std::exit(EXIT_FAILURE);
         }
 
-        if (InstallPackages(packageManager.value(), availablePackages, packageNames))
+        if (PerformPackageManagerAction(PackageManagerActionType::Install, packageManager.value(),
+                                        availablePackages, packageNames))
             std::exit(EXIT_FAILURE);
 
         std::exit(EXIT_SUCCESS);

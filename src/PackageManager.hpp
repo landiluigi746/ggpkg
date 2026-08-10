@@ -3,22 +3,43 @@
 #include "Package.hpp"
 #include "utils/Utils.hpp"
 
+#include <array>
+#include <cstdint>
 #include <ranges>
+#include <magic_enum/magic_enum.hpp>
 
 namespace ggpkg
 {
+    enum class PackageManagerActionType : std::uint8_t
+    {
+        Install,
+        Uninstall,
+        Upgrade
+    };
+
+    struct PackageManagerAction
+    {
+        std::string cmd;
+        bool batch;
+    };
+
+    using PackageManagerActions =
+        std::array<PackageManagerAction, magic_enum::enum_count<PackageManagerActionType>()>;
+
     struct PackageManagerInfo
     {
         std::string cmd;
         std::string version;
-        std::string install;
-        std::string uninstall;
         std::string update;
         std::string upgradeAll;
-        std::string upgrade;
-        bool installBatch;
-        bool uninstallBatch;
-        bool upgradeBatch;
+        PackageManagerActions actions;
+
+        // std::string install;
+        // std::string uninstall;
+        // std::string upgrade;
+        // bool installBatch;
+        // bool uninstallBatch;
+        // bool upgradeBatch;
     };
 
     Utils::Result<void> DetectPackageManager();
@@ -37,15 +58,20 @@ namespace ggpkg
         return AvailablePackages(std::ranges::begin(view), std::ranges::end(view));
     }
 
-    int InstallPackages(const PackageManagerInfo& packageManager,
-                        const AvailablePackages& availablePackages,
-                        const std::vector<std::string>& packageNames);
+    int PerformPackageManagerAction(PackageManagerActionType actionType,
+                                    const PackageManagerInfo& packageManager,
+                                    const AvailablePackages& availablePackages,
+                                    const std::vector<std::string>& packageNames);
 
-    int UninstallPackages(const PackageManagerInfo& packageManager,
-                          const AvailablePackages& availablePackages,
-                          const std::vector<std::string>& packageNames);
+    // int InstallPackages(const PackageManagerInfo& packageManager,
+    //                     const AvailablePackages& availablePackages,
+    //                     const std::vector<std::string>& packageNames);
 
-    int UpgradePackages(const PackageManagerInfo& packageManager,
-                        const AvailablePackages& availablePackages,
-                        const std::vector<std::string>& packageNames);
+    // int UninstallPackages(const PackageManagerInfo& packageManager,
+    //                       const AvailablePackages& availablePackages,
+    //                       const std::vector<std::string>& packageNames);
+
+    // int UpgradePackages(const PackageManagerInfo& packageManager,
+    //                     const AvailablePackages& availablePackages,
+    //                     const std::vector<std::string>& packageNames);
 } // namespace ggpkg
