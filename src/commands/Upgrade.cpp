@@ -46,19 +46,7 @@ namespace ggpkg::Commands
         AvailablePackages availablePackages =
             GetAvailablePackages(packages.value(), packageManager.value());
 
-        std::erase_if(packageNames, [&availablePackages](std::string& packageName) {
-            bool toErase = !availablePackages.contains(packageName);
-
-            if (toErase)
-            {
-                Utils::PrintPretty(Utils::MessageSeverity::WARNING,
-                                   "Package {} is not available for your package manager. "
-                                   "It will not be upgraded",
-                                   packageName);
-            }
-
-            return toErase;
-        });
+        FilterPackages(PackageManagerActionType::Upgrade, availablePackages, packageNames);
 
         if (packageNames.empty())
         {

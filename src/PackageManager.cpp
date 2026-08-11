@@ -148,6 +148,24 @@ namespace ggpkg
         return packageManagerInfo;
     }
 
+    void FilterPackages(PackageManagerActionType actionType, const AvailablePackages& availablePackages,
+                        std::vector<std::string>& packageNames)
+    {
+        std::erase_if(packageNames, [&availablePackages, &actionType](std::string& packageName) {
+            bool toErase = !availablePackages.contains(packageName);
+
+            if (toErase)
+            {
+                Utils::PrintPretty(Utils::MessageSeverity::WARNING,
+                                   "Package {} is not available for your package manager. "
+                                   "It will not be {}ed",
+                                   packageName, magic_enum::enum_name(actionType));
+            }
+
+            return toErase;
+        });
+    }
+
     int PerformPackageManagerAction(PackageManagerActionType actionType,
                                     const PackageManagerInfo& packageManager,
                                     const AvailablePackages& availablePackages,

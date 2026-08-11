@@ -51,6 +51,9 @@ namespace ggpkg
         return AvailablePackages(std::ranges::begin(view), std::ranges::end(view));
     }
 
+    void FilterPackages(PackageManagerActionType actionType, const AvailablePackages& availablePackages,
+                        std::vector<std::string>& packageNames);
+
     int PerformPackageManagerAction(PackageManagerActionType actionType,
                                     const PackageManagerInfo& packageManager,
                                     const AvailablePackages& availablePackages,
