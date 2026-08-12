@@ -8,11 +8,16 @@
   },
   {
     "name": "vs2022",
-    "providers": { "winget": "Microsoft.VisualStudio.2022.Community" }
+    "providers": {
+      "winget": "Microsoft.VisualStudio.2022.Community"
+    }
   },
   {
     "name": "zed",
-    "providers": { "pacman": "zed" }
+    "providers": {
+      "pacman": "zed",
+      "winget": "ZedIndustries.Zed"
+    }
   },
   {
     "name": "neovim",
@@ -29,17 +34,17 @@
     }
   },
   {
-    "name": "intellij-idea-ce",
+    "name": "intellij-idea",
     "providers": {
       "pacman": "intellij-idea-community-edition",
-      "winget": "JetBrains.IntelliJIDEA.Community"
+      "winget": "JetBrains.IntelliJIDEA"
     }
   },
   {
     "name": "pycharm-ce",
     "providers": {
       "pacman": "pycharm-community-edition",
-      "winget": "JetBrains.PyCharm.Community"
+      "winget": "JetBrains.PyCharm"
     }
   },
   {
@@ -92,6 +97,7 @@
   {
     "name": "bun",
     "providers": {
+      "pacman": "bun",
       "winget": "Oven-sh.Bun"
     }
   },
@@ -200,6 +206,12 @@
     }
   },
   {
+    "name": "brave",
+    "providers": {
+      "winget": "Brave.Brave"
+    }
+  },
+  {
     "name": "firefox",
     "providers": {
       "pacman": "firefox",
@@ -223,6 +235,7 @@
   {
     "name": "steam",
     "providers": {
+      "pacman": "steam",
       "apt": "steam",
       "winget": "Valve.Steam"
     }
