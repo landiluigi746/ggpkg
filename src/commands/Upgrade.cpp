@@ -3,7 +3,6 @@
 #include "PackageManager.hpp"
 #include "utils/Utils.hpp"
 
-#include <algorithm>
 #include <cstdlib>
 
 namespace ggpkg::Commands
@@ -16,9 +15,7 @@ namespace ggpkg::Commands
             std::exit(EXIT_FAILURE);
         }
 
-        std::ranges::sort(packageNames);
-        auto duplicates = std::ranges::unique(packageNames);
-        packageNames.erase(std::ranges::begin(duplicates), std::ranges::end(duplicates));
+        RemoveDuplicatePackages(packageNames);
 
         auto packageManager = ggpkg::GetPackageManager();
         auto packages = ggpkg::GetPackages();

@@ -148,6 +148,13 @@ namespace ggpkg
         return packageManagerInfo;
     }
 
+    void RemoveDuplicatePackages(std::vector<std::string>& packageNames)
+    {
+        std::ranges::sort(packageNames);
+        auto duplicates = std::ranges::unique(packageNames);
+        packageNames.erase(std::ranges::begin(duplicates), std::ranges::end(duplicates));
+    }
+
     void FilterPackages(PackageManagerActionType actionType, const AvailablePackages& availablePackages,
                         std::vector<std::string>& packageNames)
     {

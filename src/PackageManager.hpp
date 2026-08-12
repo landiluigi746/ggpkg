@@ -51,6 +51,8 @@ namespace ggpkg
         return AvailablePackages(std::ranges::begin(view), std::ranges::end(view));
     }
 
+    void RemoveDuplicatePackages(std::vector<std::string>& packageNames);
+
     void FilterPackages(PackageManagerActionType actionType, const AvailablePackages& availablePackages,
                         std::vector<std::string>& packageNames);
 
