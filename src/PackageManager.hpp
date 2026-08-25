@@ -33,6 +33,11 @@ namespace ggpkg
         std::string update;
         std::string upgradeAll;
         PackageManagerActions actions;
+
+        bool HasAction(PackageManagerActionType actionType) const noexcept
+        {
+            return !actions[(size_t) actionType].cmd.empty();
+        }
     };
 
     Utils::Result<void> DetectPackageManager();

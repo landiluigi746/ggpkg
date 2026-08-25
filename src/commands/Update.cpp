@@ -10,11 +10,7 @@ namespace ggpkg::Commands
     {
         auto packageManager = ggpkg::GetPackageManager();
 
-        if (!packageManager)
-        {
-            Utils::PrintPretty(Utils::MessageSeverity::ERROR, packageManager.error());
-            std::exit(EXIT_FAILURE);
-        }
+        Utils::Verify(packageManager.has_value(), packageManager.error());
 
         if (Utils::System(std::format("{} {}", packageManager->cmd, packageManager->update)))
             std::exit(EXIT_FAILURE);

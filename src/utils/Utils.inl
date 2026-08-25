@@ -2,6 +2,7 @@
 
 #include "utils/Utils.hpp"
 
+#include <cstdlib>
 #include <ftxui/dom/elements.hpp>
 #include <ftxui/screen/screen.hpp>
 #include <print>
@@ -50,5 +51,20 @@ namespace ggpkg::Utils
     inline void PrintPretty(MessageSeverity severity, const std::string_view& message)
     {
         PrintPretty(severity, "{}", message);
+    }
+
+    template<typename... Args>
+    inline void Verify(bool condition, const std::format_string<Args...>& formatString, Args&&... args)
+    {
+        if (!condition)
+        {
+            PrintPretty(MessageSeverity::ERROR, formatString, std::forward<Args>(args)...);
+            std::exit(EXIT_FAILURE);
+        }
+    }
+
+    inline void Verify(bool condition, const std::string_view& message)
+    {
+        Verify(condition, "{}", message);
     }
 } // namespace ggpkg::Utils

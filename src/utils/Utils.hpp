@@ -32,6 +32,11 @@ namespace ggpkg::Utils
                      Args&&... args);
 
     void PrintPretty(MessageSeverity severity, const std::string_view& message);
+
+    template<typename... Args>
+    void Verify(bool condition, const std::format_string<Args...>& formatString, Args&&... args);
+
+    void Verify(bool condition, const std::string_view& message);
 } // namespace ggpkg::Utils
 
 #include "utils/Utils.inl"

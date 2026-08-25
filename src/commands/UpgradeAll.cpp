@@ -9,12 +9,7 @@ namespace ggpkg::Commands
     void UpgradeAll()
     {
         auto packageManager = ggpkg::GetPackageManager();
-
-        if (!packageManager)
-        {
-            Utils::PrintPretty(Utils::MessageSeverity::ERROR, packageManager.error());
-            std::exit(EXIT_FAILURE);
-        }
+        Utils::Verify(packageManager.has_value(), packageManager.error());
 
         if (Utils::System(std::format("{} {}", packageManager->cmd, packageManager->upgradeAll)))
             std::exit(EXIT_FAILURE);

@@ -8,11 +8,8 @@ namespace ggpkg::Commands
 {
     void UpdatePackages()
     {
-        if (auto ec = ggpkg::DownloadPackageDatabase(); !ec)
-        {
-            Utils::PrintPretty(Utils::MessageSeverity::ERROR, ec.error());
-            std::exit(EXIT_FAILURE);
-        }
+        auto res = ggpkg::DownloadPackageDatabase();
+        Utils::Verify(res.has_value(), res.error());
 
         Utils::PrintPretty(Utils::MessageSeverity::OK,
                            "Package database update completed successfully!");

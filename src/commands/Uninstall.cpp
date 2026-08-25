@@ -9,40 +9,22 @@ namespace ggpkg::Commands
 {
     void Uninstall(std::vector<std::string>& packageNames)
     {
-        if (packageNames.empty())
-        {
-            Utils::PrintPretty(Utils::MessageSeverity::ERROR, "No packages specified");
-            std::exit(EXIT_FAILURE);
-        }
+        Utils::Verify(!packageNames.empty(), "No packages specified");
 
         RemoveDuplicatePackages(packageNames);
 
         auto packageManager = ggpkg::GetPackageManager();
         auto packages = ggpkg::GetPackages();
 
-        if (!packageManager)
-        {
-            Utils::PrintPretty(Utils::MessageSeverity::ERROR, packageManager.error());
-            std::exit(EXIT_FAILURE);
-        }
-
-        if (!packages)
-        {
-            Utils::PrintPretty(Utils::MessageSeverity::ERROR, packages.error());
-            std::exit(EXIT_FAILURE);
-        }
+        Utils::Verify(packageManager.has_value(), packageManager.error());
+        Utils::Verify(packages.has_value(), packages.error());
 
         AvailablePackages availablePackages =
             GetAvailablePackages(packages.value(), packageManager.value());
 
         FilterPackages(PackageManagerActionType::Uninstall, availablePackages, packageNames);
 
-        if (packageNames.empty())
-        {
-            Utils::PrintPretty(Utils::MessageSeverity::ERROR,
-                               "None of the specified packages can be installed");
-            std::exit(EXIT_FAILURE);
-        }
+        Utils::Verify(!packageNames.empty(), "None of the specified packages can be installed");
 
         if (PerformPackageManagerAction(PackageManagerActionType::Uninstall, packageManager.value(),
                                         availablePackages, packageNames))

@@ -158,17 +158,8 @@ namespace ggpkg::Commands
         auto packageManager = ggpkg::GetPackageManager();
         auto packages = ggpkg::GetPackages();
 
-        if (!packageManager)
-        {
-            Utils::PrintPretty(Utils::MessageSeverity::ERROR, packageManager.error());
-            std::exit(EXIT_FAILURE);
-        }
-
-        if (!packages)
-        {
-            Utils::PrintPretty(Utils::MessageSeverity::ERROR, packages.error());
-            std::exit(EXIT_FAILURE);
-        }
+        Utils::Verify(packageManager.has_value(), packageManager.error());
+        Utils::Verify(packages.has_value(), packages.error());
 
         if (interactive)
             InteractiveList(packages.value(), packageManager.value());

@@ -8,11 +8,8 @@ namespace ggpkg::Commands
 {
     void Test()
     {
-        if (auto ec = ggpkg::GetPackageManager(); !ec)
-        {
-            Utils::PrintPretty(Utils::MessageSeverity::ERROR, ec.error());
-            std::exit(EXIT_FAILURE);
-        }
+        auto res = ggpkg::GetPackageManager();
+        Utils::Verify(res.has_value(), res.error());
 
         Utils::PrintPretty(Utils::MessageSeverity::OK, "Test completed successfully!");
         std::exit(EXIT_SUCCESS);

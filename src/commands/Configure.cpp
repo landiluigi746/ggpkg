@@ -9,17 +9,11 @@ namespace ggpkg::Commands
 {
     void Configure()
     {
-        if (auto ec = ggpkg::DetectPackageManager(); !ec)
-        {
-            Utils::PrintPretty(Utils::MessageSeverity::ERROR, ec.error());
-            std::exit(EXIT_FAILURE);
-        }
+        auto res = ggpkg::DetectPackageManager();
+        Utils::Verify(res.has_value(), res.error());
 
-        if (auto ec = ggpkg::DownloadPackageDatabase(); !ec)
-        {
-            Utils::PrintPretty(Utils::MessageSeverity::ERROR, ec.error());
-            std::exit(EXIT_FAILURE);
-        }
+        res = ggpkg::DownloadPackageDatabase();
+        Utils::Verify(res.has_value(), res.error());
 
         Utils::PrintPretty(Utils::MessageSeverity::OK, "Configuration completed successfully!");
         std::exit(EXIT_SUCCESS);
