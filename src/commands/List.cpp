@@ -46,7 +46,7 @@ namespace ggpkg::Commands
             .content = &searchQuery,
             .placeholder = "Search packages by name",
             .multiline = false,
-            .on_enter = searchPackages,
+            .on_change = searchPackages,
         });
 
         auto screen = ftxui::ScreenInteractive::Fullscreen();
@@ -80,7 +80,7 @@ namespace ggpkg::Commands
                 searchInput->Render(),
                 ftxui::separator(),
                 ftxui::hbox({
-                    ftxui::text("q - Quit | Enter - Search"),
+                    ftxui::text("q - Quit"),
                     ftxui::separator(),
                     ftxui::text(std::format("Packages found: {}", packageNames.size())),
                 }),
