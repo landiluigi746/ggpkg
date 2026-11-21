@@ -1,5 +1,6 @@
 #include "PackageManager.hpp"
 #include "Config.hpp"
+#include "Package.hpp"
 #include "utils/Utils.hpp"
 
 #include <filesystem>
@@ -25,7 +26,8 @@ namespace ggpkg
         return true;
     }
 
-    static Utils::Result<void> SavePackageManager(const PackageManagerInfo& packageManager)
+    static Utils::Result<PackageManagerInfo> SavePackageManager(
+        const PackageManagerInfo& packageManager)
     {
         std::string buffer;
 
@@ -42,10 +44,10 @@ namespace ggpkg
             return Utils::Error("Failed to write package manager configuration");
         }
 
-        return Utils::Result<void>();
+        return packageManager;
     }
 
-    Utils::Result<void> DetectPackageManager()
+    Utils::Result<PackageManagerInfo> DetectPackageManager()
     {
         auto options = std::to_array<PackageManagerInfo>({
 #if defined(_WIN32)
@@ -155,11 +157,11 @@ namespace ggpkg
         packageNames.erase(std::ranges::begin(duplicates), std::ranges::end(duplicates));
     }
 
-    void FilterPackages(PackageManagerActionType actionType, const AvailablePackages& availablePackages,
-                        std::vector<std::string>& packageNames)
+    void EraseUnavailablePackages(PackageManagerActionType actionType, const Packages& packages,
+                                  std::vector<std::string>& packageNames)
     {
-        std::erase_if(packageNames, [&availablePackages, &actionType](std::string& packageName) {
-            bool toErase = !availablePackages.contains(packageName);
+        std::erase_if(packageNames, [&packages, &actionType](std::string& packageName) {
+            bool toErase = !packages.contains(packageName);
 
             if (toErase)
             {
@@ -174,8 +176,7 @@ namespace ggpkg
     }
 
     int PerformPackageManagerAction(PackageManagerActionType actionType,
-                                    const PackageManagerInfo& packageManager,
-                                    const AvailablePackages& availablePackages,
+                                    const PackageManagerInfo& packageManager, const Packages& packages,
                                     const std::vector<std::string>& packageNames)
     {
         std::string packagesStr;
@@ -186,7 +187,7 @@ namespace ggpkg
         if (!magic_enum::enum_contains(actionType))
         {
             Utils::PrintPretty(Utils::MessageSeverity::ERROR, "Action {} does not exist",
-                               (int) actionType);
+                               magic_enum::enum_name(actionType));
             return -1;
         }
 
@@ -200,7 +201,7 @@ namespace ggpkg
             packagesStr.clear();
 
             for (const std::string& packageName : packageNames)
-                packagesStr += availablePackages.at(packageName) + ' ';
+                packagesStr += packages.at(packageName) + ' ';
 
             return Utils::System(std::format("{} {} {}", packageManager.cmd, action.cmd, packagesStr));
         }
@@ -210,8 +211,8 @@ namespace ggpkg
 
             for (const std::string& packageName : packageNames)
             {
-                ret += Utils::System(std::format("{} {} {}", packageManager.cmd, action.cmd,
-                                                 availablePackages.at(packageName)));
+                ret += Utils::System(
+                    std::format("{} {} {}", packageManager.cmd, action.cmd, packages.at(packageName)));
             }
 
             return ret;

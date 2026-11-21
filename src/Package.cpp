@@ -12,14 +12,15 @@
 
 namespace ggpkg
 {
-    Utils::Result<void> DownloadPackageDatabase()
+    Utils::Result<void> DownloadPackageDatabase(std::string_view packageManager)
     {
         std::print("Downloading latest ggpkg package database ... ");
 
         std::string buffer;
 
         cpr::Session session;
-        session.SetUrl(cpr::Url{Config::PACKAGE_DATABASE_URL});
+        session.SetUrl(
+            cpr::Url{std::format("{}/{}.json", Config::PACKAGE_DATA_URL_BASE, packageManager)});
         buffer.reserve(session.GetDownloadFileLength());
 
         cpr::Response res = session.Download(
@@ -34,7 +35,7 @@ namespace ggpkg
             return Utils::Error("An error occurred while downloading the package database");
         }
 
-        std::ofstream outputFile(Config::PACKAGES_CONFIG_PATH);
+        std::ofstream outputFile = Config::PACKAGES_CONFIG_PATH;
 
         if (!outputFile)
         {

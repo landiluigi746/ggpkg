@@ -1,3 +1,4 @@
+#include "PackageManager.hpp"
 #include "commands/Commands.hpp"
 #include "Package.hpp"
 #include "utils/Utils.hpp"
@@ -8,7 +9,10 @@ namespace ggpkg::Commands
 {
     void UpdatePackages()
     {
-        auto res = ggpkg::DownloadPackageDatabase();
+        auto packageManager = ggpkg::GetPackageManager();
+        Utils::Verify(packageManager.has_value(), packageManager.error());
+
+        auto res = ggpkg::DownloadPackageDatabase(packageManager.value().cmd);
         Utils::Verify(res.has_value(), res.error());
 
         Utils::PrintPretty(Utils::MessageSeverity::OK,

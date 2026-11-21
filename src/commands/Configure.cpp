@@ -9,10 +9,10 @@ namespace ggpkg::Commands
 {
     void Configure()
     {
-        auto res = ggpkg::DetectPackageManager();
-        Utils::Verify(res.has_value(), res.error());
+        auto packageManager = ggpkg::DetectPackageManager();
+        Utils::Verify(packageManager.has_value(), packageManager.error());
 
-        res = ggpkg::DownloadPackageDatabase();
+        auto res = ggpkg::DownloadPackageDatabase(packageManager.value().cmd);
         Utils::Verify(res.has_value(), res.error());
 
         Utils::PrintPretty(Utils::MessageSeverity::OK, "Configuration completed successfully!");

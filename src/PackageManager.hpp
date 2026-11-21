@@ -5,7 +5,6 @@
 
 #include <array>
 #include <cstdint>
-#include <ranges>
 #include <magic_enum/magic_enum.hpp>
 
 namespace ggpkg
@@ -40,29 +39,15 @@ namespace ggpkg
         }
     };
 
-    Utils::Result<void> DetectPackageManager();
+    Utils::Result<PackageManagerInfo> DetectPackageManager();
     Utils::Result<PackageManagerInfo> GetPackageManager();
-
-    inline AvailablePackages GetAvailablePackages(const Packages& packages,
-                                                  const PackageManagerInfo& packageManager)
-    {
-        auto view = packages | std::views::filter([&packageManager](const PackageInstallInfo& package) {
-                        return package.providers.contains(packageManager.cmd);
-                    }) |
-                    std::views::transform([&packageManager](const PackageInstallInfo& package) {
-                        return std::make_pair(package.name, package.providers.at(packageManager.cmd));
-                    });
-
-        return AvailablePackages(std::ranges::begin(view), std::ranges::end(view));
-    }
 
     void RemoveDuplicatePackages(std::vector<std::string>& packageNames);
 
-    void FilterPackages(PackageManagerActionType actionType, const AvailablePackages& availablePackages,
-                        std::vector<std::string>& packageNames);
+    void EraseUnavailablePackages(PackageManagerActionType actionType, const Packages& packages,
+                                  std::vector<std::string>& packageNames);
 
     int PerformPackageManagerAction(PackageManagerActionType actionType,
-                                    const PackageManagerInfo& packageManager,
-                                    const AvailablePackages& availablePackages,
+                                    const PackageManagerInfo& packageManager, const Packages& packages,
                                     const std::vector<std::string>& packageNames);
 } // namespace ggpkg

@@ -14,20 +14,18 @@ namespace ggpkg::Commands
 {
     static void InteractiveList(const Packages& packages, const PackageManagerInfo& packageManager)
     {
-        AvailablePackages availablePackages = GetAvailablePackages(packages, packageManager);
-
         std::string searchQuery;
         std::vector<std::string> packageNames;
         std::vector<std::string> packageProviderNames;
         int packageSelected = 0;
 
-        auto searchPackages = [&availablePackages, &packageNames, &packageProviderNames,
-                               &packageSelected, &searchQuery] {
+        auto searchPackages = [&packages, &packageNames, &packageProviderNames, &packageSelected,
+                               &searchQuery] {
             packageNames.clear();
             packageProviderNames.clear();
             packageSelected = 0;
 
-            for (const auto& [name, providerName] : availablePackages)
+            for (const auto& [name, providerName] : packages)
             {
                 if (searchQuery.empty() || name.contains(searchQuery))
                 {
@@ -116,12 +114,10 @@ namespace ggpkg::Commands
 
     static void DefaultList(const Packages& packages, const PackageManagerInfo& packageManager)
     {
-        AvailablePackages availablePackages = GetAvailablePackages(packages, packageManager);
-
         ftxui::Elements packageNames;
         ftxui::Elements packageProviderNames;
 
-        for (const auto& [name, providerName] : availablePackages)
+        for (const auto& [name, providerName] : packages)
         {
             packageNames.emplace_back(ftxui::text(name));
             packageProviderNames.emplace_back(ftxui::text(providerName));

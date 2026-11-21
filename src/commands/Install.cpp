@@ -19,15 +19,12 @@ namespace ggpkg::Commands
         Utils::Verify(packageManager.has_value(), packageManager.error());
         Utils::Verify(packages.has_value(), packages.error());
 
-        AvailablePackages availablePackages =
-            GetAvailablePackages(packages.value(), packageManager.value());
-
-        FilterPackages(PackageManagerActionType::Install, availablePackages, packageNames);
+        EraseUnavailablePackages(PackageManagerActionType::Install, packages.value(), packageNames);
 
         Utils::Verify(!packageNames.empty(), "None of the specified packages can be installed");
 
         if (PerformPackageManagerAction(PackageManagerActionType::Install, packageManager.value(),
-                                        availablePackages, packageNames))
+                                        packages.value(), packageNames))
             std::exit(EXIT_FAILURE);
 
         std::exit(EXIT_SUCCESS);

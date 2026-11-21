@@ -22,15 +22,12 @@ namespace ggpkg::Commands
                       packageManager->cmd);
         Utils::Verify(packages.has_value(), packages.error());
 
-        AvailablePackages availablePackages =
-            GetAvailablePackages(packages.value(), packageManager.value());
-
-        FilterPackages(PackageManagerActionType::Upgrade, availablePackages, packageNames);
+        EraseUnavailablePackages(PackageManagerActionType::Upgrade, packages.value(), packageNames);
 
         Utils::Verify(!packageNames.empty(), "None of the specified packages can be upgraded");
 
         if (PerformPackageManagerAction(PackageManagerActionType::Upgrade, packageManager.value(),
-                                        availablePackages, packageNames))
+                                        packages.value(), packageNames))
             std::exit(EXIT_FAILURE);
 
         std::exit(EXIT_SUCCESS);

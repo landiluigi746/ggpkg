@@ -8,16 +8,8 @@
 
 namespace ggpkg
 {
-    struct PackageInstallInfo
-    {
-        std::string name;
-        std::unordered_map<std::string, std::string, Utils::StringHash, std::equal_to<>> providers;
-    };
+    using Packages = std::unordered_map<std::string, std::string, Utils::StringHash, std::equal_to<>>;
 
-    using Packages = std::vector<PackageInstallInfo>;
-    using AvailablePackages =
-        std::unordered_map<std::string, std::string, Utils::StringHash, std::equal_to<>>;
-
-    Utils::Result<void> DownloadPackageDatabase();
+    Utils::Result<void> DownloadPackageDatabase(std::string_view packageManager);
     Utils::Result<Packages> GetPackages();
 } // namespace ggpkg
